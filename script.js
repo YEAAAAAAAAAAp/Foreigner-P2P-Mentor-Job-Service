@@ -1,5 +1,5 @@
 // GitHub Pages base href 설정 (배포 환경에서만)
-if (window.location.hostname === 'yeaaaaaaaaaap.github.io') {
+if (window.location.hostname === 'yeaaaaaaaaap.github.io') {
     const baseElement = document.createElement('base');
     baseElement.href = '/Foreigner-P2P-Mentor-Job-Service/';
     document.head.insertBefore(baseElement, document.head.firstChild);
