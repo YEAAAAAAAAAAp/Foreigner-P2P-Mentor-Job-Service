@@ -10,9 +10,74 @@
     <!-- End Google Tag Manager -->
     
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <    <!-- JavaScript -->
+    <script src="script.js" defer></script>
+    
+    <!-- Performance Monitoring -->
+    <script>
+        // 페이지 로드 시간 측정
+        window.addEventListener('load', function() {
+            const loadTime = performance.now();
+            console.log('Page load time:', loadTime + 'ms');
+            
+            // GA4에 성능 데이터 전송
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'page_load_time', {
+                    event_category: 'performance',
+                    value: Math.round(loadTime)
+                });
+            }
+            
+            // 리소스 로딩 시간 측정
+            if (performance.getEntriesByType) {
+                const resources = performance.getEntriesByType('resource');
+                resources.forEach(resource => {
+                    if (resource.duration > 1000) { // 1초 이상 걸린 리소스
+                        console.warn('Slow resource:', resource.name, resource.duration + 'ms');
+                    }
+                });
+            }
+        });
+        
+        // Critical CSS inline for faster rendering
+        const criticalCSS = `
+            body{font-family:'Inter','Noto Sans KR',sans-serif;margin:0;padding:0;line-height:1.6}
+            .hero{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;min-height:100vh;display:flex;align-items:center}
+            .container{max-width:1200px;margin:0 auto;padding:0 20px}
+        `;
+        
+        // Inject critical CSS
+        const styleTag = document.createElement('style');
+        styleTag.innerHTML = criticalCSS;
+        document.head.insertBefore(styleTag, document.head.firstChild);
+    </script>
+</body>
+</html>t" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#667eea">
     <title>Foreign Mentor & Safe Part-time Job Matching | MentorMatch Korea</title>
-    <meta name="description" content="Professional mentoring services and legal, safe part-time job opportunities for international students and expats in Korea.">
+    <meta name="description" content="Professional mentoring services and legal, safe part-time job opportunities for international students and expats in Korea. Get personalized 1:1 mentoring and visa-compliant jobs.">
+    <meta name="keywords" content="foreign mentor, international students Korea, part-time jobs Korea, visa jobs, mentoring Korea, expat jobs, safe jobs Korea">
+    <meta name="author" content="MentorMatch Korea">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/">
+    <meta property="og:title" content="Foreign Mentor & Safe Part-time Job Matching | MentorMatch Korea">
+    <meta property="og:description" content="Professional mentoring services and legal, safe part-time job opportunities for international students and expats in Korea.">
+    <meta property="og:image" content="https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/">
+    <meta property="twitter:title" content="Foreign Mentor & Safe Part-time Job Matching | MentorMatch Korea">
+    <meta property="twitter:description" content="Professional mentoring services and legal, safe part-time job opportunities for international students and expats in Korea.">
+    <meta property="twitter:image" content="https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/og-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="favicon.ico">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -20,6 +85,9 @@
     <!-- Preload critical resources -->
     <link rel="preload" href="styles.css" as="style">
     <link rel="preload" href="script.js" as="script">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//www.googletagmanager.com")
     
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NGW6S380X9"></script>
@@ -50,22 +118,22 @@
     </div>
 
     <!-- 네비게이션 -->
-    <nav class="navbar">
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="container">
             <div class="nav-brand">
                 <h2>MentorMatch Korea</h2>
             </div>
-            <div class="nav-menu">
-                <a href="#hero" class="nav-link" data-ko="홈" data-en="Home">Home</a>
-                <a href="#services" class="nav-link" data-ko="서비스" data-en="Services">Services</a>
-                <a href="#mentor-support" class="nav-link" data-ko="멘토 지원" data-en="Mentor Support">Mentor Support</a>
-                <a href="#job-support" class="nav-link" data-ko="알바 지원" data-en="Job Support">Job Support</a>
-                <a href="#faq" class="nav-link" data-ko="FAQ" data-en="FAQ">FAQ</a>
-                <button class="cta-btn primary" data-ko="시작하기" data-en="Get Started">Get Started</button>
+            <div class="nav-menu" role="menubar">
+                <a href="#hero" class="nav-link" role="menuitem" data-ko="홈" data-en="Home">Home</a>
+                <a href="#services" class="nav-link" role="menuitem" data-ko="서비스" data-en="Services">Services</a>
+                <a href="#mentor-support" class="nav-link" role="menuitem" data-ko="멘토 지원" data-en="Mentor Support">Mentor Support</a>
+                <a href="#job-support" class="nav-link" role="menuitem" data-ko="알바 지원" data-en="Job Support">Job Support</a>
+                <a href="#faq" class="nav-link" role="menuitem" data-ko="FAQ" data-en="FAQ">FAQ</a>
+                <button class="cta-btn primary" aria-label="Get started with our services" data-ko="시작하기" data-en="Get Started">Get Started</button>
             </div>
-            <div class="mobile-menu-toggle">
-                <i class="fas fa-bars"></i>
-            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </button>
         </div>
     </nav>
 
