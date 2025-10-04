@@ -2,14 +2,14 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/sitemap.xml
+Sitemap: https://yeaaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/sitemap.xml
 
-# 중요하지 않은 파일들 제외
+# 중요?��? ?��? ?�일???�외
 Disallow: /node_modules/
 Disallow: /.git/
 Disallow: /package-lock.json
 Disallow: /README.md
 Disallow: /DEPLOYMENT.md
 
-# 크롤링 속도 제한
+# ?�롤�??�도 ?�한
 Crawl-delay: 1
