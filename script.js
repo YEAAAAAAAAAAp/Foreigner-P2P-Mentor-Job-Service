@@ -1,4 +1,4 @@
-// 전역 변수
+// 전역 변수와 에러 처리
 let currentLanguage = 'en';
 let abTestVariant = null;
 let sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -17,6 +17,85 @@ let trackingData = {
         modal_open: 0,
         form_start: 0,
         form_submit: 0
+    }
+};
+
+// 전역 에러 처리
+window.addEventListener('error', function(event) {
+    console.error('Global error:', event.error);
+    // 에러 추적 (실제 운영 환경에서는 에러 로깅 서비스로 전송)
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'exception', {
+            description: event.error?.message || 'Unknown error',
+            fatal: false
+        });
+    }
+});
+
+// Promise rejection 처리
+window.addEventListener('unhandledrejection', function(event) {
+    console.error('Unhandled promise rejection:', event.reason);
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'exception', {
+            description: 'Promise rejection: ' + (event.reason?.message || 'Unknown'),
+            fatal: false
+        });
+    }
+});
+
+// 유틸리티 함수들
+const utils = {
+    // 안전한 요소 선택
+    safeQuerySelector: function(selector) {
+        try {
+            return document.querySelector(selector);
+        } catch (error) {
+            console.warn('Invalid selector:', selector, error);
+            return null;
+        }
+    },
+    
+    // 안전한 이벤트 리스너 추가
+    safeAddEventListener: function(element, event, handler, options = {}) {
+        if (!element || typeof handler !== 'function') {
+            console.warn('Invalid element or handler for event listener');
+            return false;
+        }
+        
+        try {
+            element.addEventListener(event, handler, options);
+            return true;
+        } catch (error) {
+            console.error('Error adding event listener:', error);
+            return false;
+        }
+    },
+    
+    // 디바운스 함수
+    debounce: function(func, wait, immediate) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                timeout = null;
+                if (!immediate) func.apply(this, args);
+            };
+            const callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(this, args);
+        };
+    },
+    
+    // 쓰로틀 함수
+    throttle: function(func, limit) {
+        let inThrottle;
+        return function(...args) {
+            if (!inThrottle) {
+                func.apply(this, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
     }
 };
 
@@ -97,8 +176,121 @@ const CTA_DEFINITIONS = {
 
 // DOM 로드 완료 후 실행
 document.addEventListener('DOMContentLoaded', function() {
-    initializeApp();
+    try {
+        initializeApp();
+        setupPerformanceMonitoring();
+        setupAccessibilityFeatures();
+    } catch (error) {
+        console.error('Error during app initialization:', error);
+        // 기본 기능만이라도 동작하도록 fallback
+        setupBasicFeatures();
+    }
 });
+
+// 성능 모니터링 설정
+function setupPerformanceMonitoring() {
+    if ('performance' in window) {
+        // 페이지 로드 시간 측정
+        window.addEventListener('load', utils.debounce(function() {
+            const loadTime = performance.now();
+            console.log('Page load time:', loadTime + 'ms');
+            
+            // GA4에 성능 데이터 전송
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'page_load_time', {
+                    event_category: 'performance',
+                    value: Math.round(loadTime)
+                });
+            }
+            
+            // Core Web Vitals 측정
+            measureCoreWebVitals();
+        }, 100));
+    }
+}
+
+// Core Web Vitals 측정
+function measureCoreWebVitals() {
+    if ('web-vital' in window) {
+        // 이미 라이브러리가 로드된 경우
+        return;
+    }
+    
+    // LCP (Largest Contentful Paint) 측정
+    if ('PerformanceObserver' in window) {
+        try {
+            const lcpObserver = new PerformanceObserver((entryList) => {
+                const entries = entryList.getEntries();
+                const lastEntry = entries[entries.length - 1];
+                
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'lcp', {
+                        event_category: 'web_vitals',
+                        value: Math.round(lastEntry.startTime)
+                    });
+                }
+            });
+            
+            lcpObserver.observe({entryTypes: ['largest-contentful-paint']});
+        } catch (error) {
+            console.warn('LCP measurement not supported:', error);
+        }
+    }
+}
+
+// 접근성 기능 설정
+function setupAccessibilityFeatures() {
+    // 키보드 네비게이션 지원
+    setupKeyboardNavigation();
+    
+    // 포커스 트랩 설정
+    setupFocusTraps();
+    
+    // 스크린 리더 지원
+    setupScreenReaderSupport();
+}
+
+// 키보드 네비게이션 설정
+function setupKeyboardNavigation() {
+    document.addEventListener('keydown', function(e) {
+        // ESC 키로 모달 닫기
+        if (e.key === 'Escape') {
+            const openModal = utils.safeQuerySelector('.modal.active');
+            if (openModal) {
+                closeModal(openModal);
+            }
+        }
+        
+        // Tab 키 순환 네비게이션
+        if (e.key === 'Tab') {
+            handleTabNavigation(e);
+        }
+    });
+}
+
+// 기본 기능 설정 (fallback)
+function setupBasicFeatures() {
+    // 기본적인 언어 전환 기능
+    const langButtons = document.querySelectorAll('.lang-btn');
+    langButtons.forEach(btn => {
+        utils.safeAddEventListener(btn, 'click', function() {
+            const lang = this.getAttribute('data-lang');
+            if (lang) {
+                switchLanguage(lang);
+            }
+        });
+    });
+    
+    // 기본적인 CTA 버튼 기능
+    const ctaButtons = document.querySelectorAll('.cta-btn');
+    ctaButtons.forEach(btn => {
+        utils.safeAddEventListener(btn, 'click', function(e) {
+            e.preventDefault();
+            const action = this.getAttribute('data-action') || 'contact';
+            handleBasicCTA(action);
+        });
+    });
+}
 
 // 앱 초기화
 function initializeApp() {

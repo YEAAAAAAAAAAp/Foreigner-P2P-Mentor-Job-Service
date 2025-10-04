@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -11,85 +11,56 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- JavaScript -->
-    <script src="script.js" defer></script>
-    
-    <!-- Performance Monitoring -->
-    <script>
-        // 페이지 로드 시간 측정
-        window.addEventListener('load', function() {
-            const loadTime = performance.now();
-            console.log('Page load time:', loadTime + 'ms');
-            
-            // GA4에 성능 데이터 전송
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'page_load_time', {
-                    event_category: 'performance',
-                    value: Math.round(loadTime)
-                });
-            }
-            
-            // 리소스 로딩 시간 측정
-            if (performance.getEntriesByType) {
-                const resources = performance.getEntriesByType('resource');
-                resources.forEach(resource => {
-                    if (resource.duration > 1000) { // 1초 이상 걸린 리소스
-                        console.warn('Slow resource:', resource.name, resource.duration + 'ms');
-                    }
-                });
-            }
-        });
-        
-        // Critical CSS inline for faster rendering
-        const criticalCSS = `
-            body{font-family:'Inter','Noto Sans KR',sans-serif;margin:0;padding:0;line-height:1.6}
-            .hero{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;min-height:100vh;display:flex;align-items:center}
-            .container{max-width:1200px;margin:0 auto;padding:0 20px}
-        `;
-        
-        // Inject critical CSS
-        const styleTag = document.createElement('style');
-        styleTag.innerHTML = criticalCSS;
-        document.head.insertBefore(styleTag, document.head.firstChild);
-    </script>
-</body>
-</html>t" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#667eea">
+    
+    <!-- SEO Meta Tags -->
     <title>한국 생활 적응 멘토링 & 안전한 아르바이트 매칭 | MentorMatch Korea</title>
     <meta name="description" content="한국에 막 도착한 외국인을 위한 생활 적응 멘토링 서비스. 같은 국적 선배들이 한국 정착, 문화 적응, 비자 관리를 1:1로 도와드립니다. 안전한 아르바이트도 함께 제공.">
     <meta name="keywords" content="한국 생활 적응, 외국인 멘토링, 한국 정착 도움, 생활 가이드, 문화 적응, 비자 상담, 외국인 아르바이트, 안전한 일자리">
     <meta name="author" content="MentorMatch Korea">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/">
     <meta property="og:title" content="한국 생활 적응 멘토링 & 안전한 아르바이트 매칭 | MentorMatch Korea">
     <meta property="og:description" content="한국에 막 도착한 외국인을 위한 생활 적응 멘토링. 같은 국적 선배들이 한국 정착과 문화 적응을 1:1로 도와드립니다.">
-    <meta property="og:image" content="https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/og-image.jpg">
+    <meta property="og:image" content="https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/favicon.ico">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:locale:alternate" content="en_US">
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/">
-    <meta property="twitter:title" content="한국 생활 적응 멘토링 & 안전한 아르바이트 매칭 | MentorMatch Korea">
-    <meta property="twitter:description" content="한국에 막 도착한 외국인을 위한 생활 적응 멘토링. 같은 국적 선배들이 한국 정착과 문화 적응을 1:1로 도와드립니다.">
-    <meta property="twitter:image" content="https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/">
+    <meta name="twitter:title" content="한국 생활 적응 멘토링 & 안전한 아르바이트 매칭 | MentorMatch Korea">
+    <meta name="twitter:description" content="한국에 막 도착한 외국인을 위한 생활 적응 멘토링. 같은 국적 선배들이 한국 정착과 문화 적응을 1:1로 도와드립니다.">
+    <meta name="twitter:image" content="https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/favicon.ico">
     
-    <!-- Favicon -->
+    <!-- Favicon and Touch Icons -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="apple-touch-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- DNS Prefetch for Performance -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" as="style">
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Preload critical resources -->
-    <link rel="preload" href="styles.css" as="style">
-    <link rel="preload" href="script.js" as="script">
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
     
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NGW6S380X9"></script>
@@ -99,21 +70,90 @@
         gtag('js', new Date());
         gtag('config', 'G-NGW6S380X9', {
             page_title: 'MentorMatch Korea - Landing Page',
-            page_location: window.location.href
+            page_location: window.location.href,
+            custom_map: {'dimension1': 'user_type'}
         });
+    </script>
+    
+    <!-- Critical CSS for Performance -->
+    <style>
+        /* Critical CSS - Above the fold content */
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .language-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 8px 0;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 40px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    
+    <!-- JavaScript -->
+    <script src="script.js" defer></script>
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "MentorMatch Korea",
+        "url": "https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/",
+        "logo": "https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/favicon.ico",
+        "description": "한국 생활 적응 멘토링 및 안전한 아르바이트 매칭 서비스",
+        "sameAs": [],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "availableLanguage": ["Korean", "English"]
+        },
+        "serviceArea": {
+            "@type": "Country",
+            "name": "South Korea"
+        }
+    }
     </script>
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCJJCHFR" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCJJCHFR" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- 언어 선택 바 -->
-    <div class="language-bar">
+    <div class="language-bar" role="banner">
         <div class="container">
-            <div class="language-selector">
-                <button class="lang-btn active" data-lang="en">English</button>
-                <button class="lang-btn" data-lang="ko">한국어</button>
+            <div class="language-selector" role="group" aria-label="Language selection">
+                <button class="lang-btn active" data-lang="en" aria-pressed="true" aria-describedby="current-lang">English</button>
+                <button class="lang-btn" data-lang="ko" aria-pressed="false">한국어</button>
+                <span id="current-lang" class="sr-only">Current language: English</span>
             </div>
         </div>
     </div>
@@ -138,26 +178,28 @@
         </div>
     </nav>
 
-    <!-- 히어로 섹션 -->
-    <section id="hero" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title" data-ko="한국 생활 적응을 위한 멘토링과 안전한 아르바이트" data-en="Life Adaptation Mentoring & Safe Part-time Jobs in Korea">
-                        Life Adaptation Mentoring & Safe Part-time Jobs in Korea
-                    </h1>
-                    <p class="hero-subtitle" data-ko="한국에 막 도착한 외국인을 위해 같은 국적 선배들이 한국 생활 정착, 문화 적응, 일상 관리를 1:1로 도와드립니다. 안전한 아르바이트 기회도 함께 제공합니다" data-en="For foreigners who just arrived in Korea, senior mentors from the same nationality provide 1:1 support for settling into Korean life, cultural adaptation, and daily life management. Safe part-time job opportunities are also provided">
-                        For foreigners who just arrived in Korea, senior mentors from the same nationality provide 1:1 support for settling into Korean life, cultural adaptation, and daily life management. Safe part-time job opportunities are also provided
-                    </p>
-                    <div class="service-selector">
-                        <h3 data-ko="어떤 서비스를 찾고 계신가요?" data-en="What service are you looking for?">What service are you looking for?</h3>
-                        <div class="service-buttons">
-                            <button class="service-btn active" data-service="mentor" data-ko="생활 적응 멘토링" data-en="Life Adaptation Mentoring">
-                                <i class="fas fa-user-graduate"></i>
-                                <span>Life Adaptation Mentoring</span>
-                            </button>
-                            <button class="service-btn" data-service="job" data-ko="아르바이트 지원" data-en="Part-time Job Support">
-                                <i class="fas fa-briefcase"></i>
+    <!-- 메인 콘텐츠 -->
+    <main id="main-content">
+        <!-- 히어로 섹션 -->
+        <section id="hero" class="hero" role="banner">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 class="hero-title" data-ko="한국 생활 적응을 위한 멘토링과 안전한 아르바이트" data-en="Life Adaptation Mentoring & Safe Part-time Jobs in Korea">
+                            Life Adaptation Mentoring & Safe Part-time Jobs in Korea
+                        </h1>
+                        <p class="hero-subtitle" data-ko="한국에 막 도착한 외국인을 위해 같은 국적 선배들이 한국 생활 정착, 문화 적응, 일상 관리를 1:1로 도와드립니다. 안전한 아르바이트 기회도 함께 제공합니다" data-en="For foreigners who just arrived in Korea, senior mentors from the same nationality provide 1:1 support for settling into Korean life, cultural adaptation, and daily life management. Safe part-time job opportunities are also provided">
+                            For foreigners who just arrived in Korea, senior mentors from the same nationality provide 1:1 support for settling into Korean life, cultural adaptation, and daily life management. Safe part-time job opportunities are also provided
+                        </p>
+                        <div class="service-selector">
+                            <h2 data-ko="어떤 서비스를 찾고 계신가요?" data-en="What service are you looking for?">What service are you looking for?</h2>
+                            <div class="service-buttons" role="group" aria-label="Service selection">
+                                <button class="service-btn active" data-service="mentor" data-ko="생활 적응 멘토링" data-en="Life Adaptation Mentoring" aria-pressed="true">
+                                    <i class="fas fa-user-graduate" aria-hidden="true"></i>
+                                    <span>Life Adaptation Mentoring</span>
+                                </button>
+                                <button class="service-btn" data-service="job" data-ko="아르바이트 지원" data-en="Part-time Job Support" aria-pressed="false">
+                                    <i class="fas fa-briefcase" aria-hidden="true"></i>
                                 <span>Part-time Job Support</span>
                             </button>
                         </div>
