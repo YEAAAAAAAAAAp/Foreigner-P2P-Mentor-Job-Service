@@ -1,5 +1,5 @@
 // 전역 변수와 에러 처리
-let currentLanguage = 'en';
+const currentLanguage = 'en'; // 영어로 고정
 let abTestVariant = null;
 let sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
 let ctaInteractions = [];
@@ -268,26 +268,31 @@ function setupKeyboardNavigation() {
     });
 }
 
-// 기본 기능 ?�정 (fallback)
+// 기본 기능 설정 (fallback)
 function setupBasicFeatures() {
-    // 기본?�인 ?�어 ?�환 기능
-    const langButtons = document.querySelectorAll('.lang-btn');
-    langButtons.forEach(btn => {
-        utils.safeAddEventListener(btn, 'click', function() {
-            const lang = this.getAttribute('data-lang');
-            if (lang) {
-                switchLanguage(lang);
-            }
-        });
-    });
+    // 언어 관련 기능은 제거됨 - 영어로 고정
     
-    // 기본?�인 CTA 버튼 기능
+    // 기본적인 CTA 버튼 기능
     const ctaButtons = document.querySelectorAll('.cta-btn');
     ctaButtons.forEach(btn => {
         utils.safeAddEventListener(btn, 'click', function(e) {
             e.preventDefault();
-            const action = this.getAttribute('data-action') || 'contact';
-            handleBasicCTA(action);
+            const buttonId = this.id;
+            const buttonText = this.textContent.trim();
+            
+            // 특정 CTA 버튼별로 처리
+            if (buttonId === 'hero-cta' || buttonText.includes('Apply for Free Consultation')) {
+                showModal('Contact Us', 'Please fill out the form below to get in touch with us.');
+            } else if (buttonId === 'legality-check' || buttonText.includes('Check Legality')) {
+                showModal('Legal Check', 'We will help you verify the legal requirements for your situation.');
+            } else {
+                // 기타 CTA 버튼들은 이메일 모달 표시
+                const emailModal = document.getElementById('email-modal');
+                if (emailModal) {
+                    emailModal.style.display = 'block';
+                    emailModal.classList.add('active');
+                }
+            }
         });
     });
 }
@@ -295,7 +300,6 @@ function setupBasicFeatures() {
 // ??초기??
 function initializeApp() {
     try {
-        initializeLanguage();
         initializeABTest();
         initializeServiceSelector();
         initializeEventTracking();
@@ -740,55 +744,7 @@ function getCTAOptimizationRecommendations() {
     return recommendations;
 }
 
-// ?�어 초기??
-function initializeLanguage() {
-    const langButtons = document.querySelectorAll('.lang-btn');
-    const elements = document.querySelectorAll('[data-ko], [data-en]');
-    
-    // ?�어 버튼 ?�벤??리스??
-    langButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const selectedLang = this.getAttribute('data-lang');
-            switchLanguage(selectedLang);
-        });
-    });
-    
-    // 기본 ?�어 ?�정 (?�어�?변�?
-    const savedLang = localStorage.getItem('preferredLanguage') || 'en';
-    switchLanguage(savedLang);
-}
-
-// 언어 전환
-function switchLanguage(lang) {
-    currentLanguage = lang;
-    localStorage.setItem('preferredLanguage', lang);
-    
-    // 언어 버튼 상태 업데이트
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) {
-            btn.classList.add('active');
-        }
-    });
-    
-    // 텍스트 업데이트
-    document.querySelectorAll('[data-ko], [data-en]').forEach(element => {
-        const text = element.getAttribute(`data-${lang}`);
-        if (text) {
-            element.textContent = text;
-        }
-    });
-    
-    // ?�이지 ?�목 ?�데?�트
-    if (lang === 'ko') {
-        document.title = '한국인 멘토 & 안전한 아르바이트 매칭 | MentorMatch Korea';
-    } else {
-        document.title = 'Foreign Mentor & Safe Part-time Job Matching | MentorMatch Korea';
-    }
-    
-    // ?�어 변�??�벤???�래??
-    trackEvent('language_change', { language: lang });
-}
+// 언어 관련 기능 제거됨 - 영어로 고정
 
 // A/B ?�스??초기??
 function initializeABTest() {
