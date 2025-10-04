@@ -112,72 +112,56 @@ button, .btn, .cta-btn {
     border: 0;
 }
 
-/* Enhanced Language Bar */
-.language-bar {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 8px 0;
-    box-shadow: 0 2px 20px rgba(102, 126, 234, 0.15);
-    position: relative;
-}
+/* 기존 언어 바 스타일 제거됨 - 이제 네비게이션 안에 포함 */
 
-.language-bar::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-}
-
+/* Navigation Language Selector */
 .language-selector {
     display: flex;
-    justify-content: flex-end;
-    gap: 8px;
+    align-items: center;
+    gap: 4px;
+    margin: 0 15px;
 }
 
 .lang-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    padding: 8px 18px;
-    border-radius: 25px;
+    background: rgba(102, 126, 234, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    color: #667eea;
+    padding: 8px 12px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(15px);
-    position: relative;
-    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 48px;
+    justify-content: center;
 }
 
-.lang-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s ease;
-}
-
-.lang-btn:hover::before {
-    left: 100%;
+.lang-btn i {
+    font-size: 10px;
+    opacity: 0.7;
 }
 
 .lang-btn.active {
-    background: rgba(255, 255, 255, 0.95);
-    color: #667eea;
-    border-color: rgba(255, 255, 255, 0.95);
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    transform: translateY(-1px);
 }
 
 .lang-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    background: rgba(102, 126, 234, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.lang-btn.active:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
 /* Enhanced Navigation */
@@ -222,7 +206,8 @@ button, .btn, .cta-btn {
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 25px;
+    flex-wrap: wrap;
 }
 
 .nav-link {
@@ -347,12 +332,14 @@ button, .btn, .cta-btn {
 .hero {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 120px 0;
+    padding: 80px 0 120px 0;
     min-height: 100vh;
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
+    margin-top: -80px; /* 네비게이션 바와 겹치도록 조정 */
+    padding-top: 160px; /* 네비게이션 바 공간 확보 */
 }
 
 .hero::before {
@@ -471,6 +458,27 @@ button, .btn, .cta-btn {
     align-items: center;
     position: relative;
     z-index: 2;
+}
+
+/* Hero Badge */
+.hero-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    animation: float 6s ease-in-out infinite;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
 }
 
 .hero-title {
@@ -1529,6 +1537,22 @@ button, .btn, .cta-btn {
         display: none;
     }
     
+    /* 모바일에서 언어 선택 버튼을 네비게이션에 표시 */
+    .navbar .language-selector {
+        display: flex;
+        position: absolute;
+        right: 70px;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0;
+    }
+    
+    .lang-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+        min-width: 40px;
+    }
+    
     .mobile-menu-toggle {
         display: block;
     }
@@ -1541,6 +1565,12 @@ button, .btn, .cta-btn {
     
     .hero-title {
         font-size: 2.8rem;
+    }
+    
+    .hero-badge {
+        font-size: 14px;
+        padding: 10px 20px;
+        margin-bottom: 20px;
     }
     
     .section-header h2 {

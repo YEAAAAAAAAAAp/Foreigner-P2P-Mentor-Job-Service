@@ -147,17 +147,6 @@
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- 언어 선택 바 -->
-    <div class="language-bar" role="banner">
-        <div class="container">
-            <div class="language-selector" role="group" aria-label="Language selection">
-                <button class="lang-btn active" data-lang="en" aria-pressed="true" aria-describedby="current-lang">English</button>
-                <button class="lang-btn" data-lang="ko" aria-pressed="false">한국어</button>
-                <span id="current-lang" class="sr-only">Current language: English</span>
-            </div>
-        </div>
-    </div>
-
     <!-- 네비게이션 -->
     <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="container">
@@ -170,6 +159,20 @@
                 <a href="#mentor-support" class="nav-link" role="menuitem" data-ko="생활 적응 멘토링" data-en="Life Adaptation Mentoring">Life Adaptation Mentoring</a>
                 <a href="#job-support" class="nav-link" role="menuitem" data-ko="아르바이트 지원" data-en="Part-time Job Support">Part-time Job Support</a>
                 <a href="#faq" class="nav-link" role="menuitem" data-ko="FAQ" data-en="FAQ">FAQ</a>
+                
+                <!-- 언어 선택 -->
+                <div class="language-selector" role="group" aria-label="Language selection">
+                    <button class="lang-btn active" data-lang="en" aria-pressed="true" aria-describedby="current-lang">
+                        <i class="fas fa-globe" aria-hidden="true"></i>
+                        <span>EN</span>
+                    </button>
+                    <button class="lang-btn" data-lang="ko" aria-pressed="false">
+                        <i class="fas fa-globe" aria-hidden="true"></i>
+                        <span>한</span>
+                    </button>
+                    <span id="current-lang" class="sr-only">Current language: English</span>
+                </div>
+                
                 <button class="cta-btn primary" aria-label="Get started with our services" data-ko="시작하기" data-en="Get Started">Get Started</button>
             </div>
             <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
@@ -181,10 +184,13 @@
     <!-- 메인 콘텐츠 -->
     <main id="main-content">
         <!-- 히어로 섹션 -->
-        <section id="hero" class="hero" role="banner">
+        <section id="hero" class="hero">
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-text">
+                        <div class="hero-badge" data-ko="🌟 한국 생활의 새로운 시작" data-en="🌟 Your New Beginning in Korea">
+                            🌟 Your New Beginning in Korea
+                        </div>
                         <h1 class="hero-title" data-ko="한국 생활 적응을 위한 멘토링과 안전한 아르바이트" data-en="Life Adaptation Mentoring & Safe Part-time Jobs in Korea">
                             Life Adaptation Mentoring & Safe Part-time Jobs in Korea
                         </h1>
