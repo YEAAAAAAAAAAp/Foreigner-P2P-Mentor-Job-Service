@@ -22,7 +22,6 @@
   "license": "MIT",
   "homepage": "https://mentormatch-korea.github.io/landing-page",
   "devDependencies": {
-    "gh-pages": "^6.0.0",
     "http-server": "^14.1.1"
   },
   "repository": {
