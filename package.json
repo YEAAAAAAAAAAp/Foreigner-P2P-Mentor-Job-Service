@@ -1,0 +1,35 @@
+{
+  "name": "mentormatch-korea-landing",
+  "version": "1.0.0",
+  "description": "Foreign Mentor & Safe Part-time Job Matching Landing Page for Internationals in Korea",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 3000 -o",
+    "build": "echo 'No build process needed for static site'",
+    "deploy": "gh-pages -d .",
+    "preview": "npx http-server -p 8080 -o"
+  },
+  "keywords": [
+    "mentoring",
+    "jobs",
+    "korea",
+    "international",
+    "students",
+    "expat",
+    "landing-page"
+  ],
+  "author": "MentorMatch Korea",
+  "license": "MIT",
+  "homepage": "https://mentormatch-korea.github.io/landing-page",
+  "devDependencies": {
+    "gh-pages": "^6.0.0",
+    "http-server": "^14.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mentormatch-korea/landing-page.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mentormatch-korea/landing-page/issues"
+  }
+}
