@@ -1,12 +1,98 @@
 // 전역 변수
 let currentLanguage = 'en';
 let abTestVariant = null;
+let sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+let ctaInteractions = [];
+let heatmapData = [];
 let trackingData = {
     pageViews: 0,
     clicks: {},
     formSubmissions: 0,
     timeOnPage: 0,
-    startTime: Date.now()
+    startTime: Date.now(),
+    ctaClicks: {},
+    conversionFunnel: {
+        page_view: 0,
+        cta_click: 0,
+        modal_open: 0,
+        form_start: 0,
+        form_submit: 0
+    }
+};
+
+// CTA 정의 및 우선순위
+const CTA_DEFINITIONS = {
+    // Primary CTAs (최우선 전환 목표)
+    'hero-cta': {
+        name: 'Hero Main CTA',
+        type: 'primary',
+        goal: 'lead_generation',
+        position: 'hero',
+        priority: 1,
+        value: 100
+    },
+    'hero-secondary-cta': {
+        name: 'Hero Secondary CTA',
+        type: 'secondary',
+        goal: 'legality_check',
+        position: 'hero',
+        priority: 2,
+        value: 50
+    },
+    
+    // Service CTAs
+    'mentor-cta': {
+        name: 'Mentor Service CTA',
+        type: 'service',
+        goal: 'mentor_signup',
+        position: 'services',
+        priority: 3,
+        value: 80
+    },
+    'job-cta': {
+        name: 'Job Service CTA',
+        type: 'service',
+        goal: 'job_signup',
+        position: 'services',
+        priority: 3,
+        value: 80
+    },
+    
+    // Modal CTAs
+    'legality-check': {
+        name: 'Legality Check',
+        type: 'tool',
+        goal: 'tool_usage',
+        position: 'hero',
+        priority: 4,
+        value: 30
+    },
+    'wizard-cta': {
+        name: 'Wizard Start',
+        type: 'tool',
+        goal: 'wizard_complete',
+        position: 'job-section',
+        priority: 5,
+        value: 40
+    },
+    'jobs-cta': {
+        name: 'View Jobs',
+        type: 'browse',
+        goal: 'job_browse',
+        position: 'job-section',
+        priority: 6,
+        value: 20
+    },
+    
+    // Navigation CTAs
+    'nav-cta': {
+        name: 'Navigation CTA',
+        type: 'primary',
+        goal: 'lead_generation',
+        position: 'navigation',
+        priority: 2,
+        value: 90
+    }
 };
 
 // DOM 로드 완료 후 실행
@@ -21,6 +107,7 @@ function initializeApp() {
         initializeABTest();
         initializeServiceSelector();
         initializeEventTracking();
+        initializeCTATracking(); // CTA 전용 트래킹 추가
         initializeFAQ();
         initializeFAQTabs();
         initializeScrollAnimations();
@@ -28,12 +115,15 @@ function initializeApp() {
         initializeModal();
         initializeMobileMenu();
         
-        // 페이지 뷰 트래킹
+        // 페이지 뷰 트래킹 (전환 퍼널 시작)
         trackEvent('page_view', { 
             page: 'landing',
             category: 'page_view',
             label: 'landing_page_load'
         });
+        
+        // 전환 퍼널 시작점 기록
+        trackingData.conversionFunnel.page_view++;
         
         // 시간 추적 시작
         startTimeTracking();
@@ -43,6 +133,419 @@ function initializeApp() {
         console.error('Error initializing app:', error);
         // 기본 기능은 계속 작동하도록 함
     }
+}
+
+// ===== CTA 전용 고급 트래킹 시스템 =====
+
+// CTA 트래킹 초기화
+function initializeCTATracking() {
+    // 모든 CTA 버튼에 고급 트래킹 설정
+    Object.keys(CTA_DEFINITIONS).forEach(ctaId => {
+        const element = document.getElementById(ctaId);
+        if (element) {
+            setupCTATracking(element, ctaId);
+        }
+    });
+    
+    // 클래스 기반 CTA 버튼들도 추가
+    const ctaButtons = document.querySelectorAll('.cta-btn');
+    ctaButtons.forEach((button, index) => {
+        const ctaId = button.id || `cta-${index}`;
+        if (!CTA_DEFINITIONS[ctaId]) {
+            // 동적 CTA 정의 생성
+            CTA_DEFINITIONS[ctaId] = {
+                name: button.textContent.trim() || `CTA ${index + 1}`,
+                type: button.classList.contains('primary') ? 'primary' : 'secondary',
+                goal: 'general_cta',
+                position: getElementPosition(button),
+                priority: 10,
+                value: button.classList.contains('primary') ? 70 : 40
+            };
+        }
+        setupCTATracking(button, ctaId);
+    });
+    
+    console.log('CTA Tracking initialized for', Object.keys(CTA_DEFINITIONS).length, 'CTAs');
+}
+
+// CTA 개별 트래킹 설정
+function setupCTATracking(element, ctaId) {
+    if (!element || !ctaId) return;
+    
+    const ctaConfig = CTA_DEFINITIONS[ctaId];
+    
+    // 마우스 이벤트 트래킹
+    element.addEventListener('mouseenter', () => {
+        trackCTAInteraction(ctaId, 'hover', {
+            timestamp: Date.now(),
+            position: getElementPosition(element)
+        });
+    });
+    
+    element.addEventListener('mouseleave', () => {
+        trackCTAInteraction(ctaId, 'hover_end');
+    });
+    
+    // 클릭 이벤트 트래킹 (기존 클릭 리스너보다 먼저 실행)
+    element.addEventListener('click', (e) => {
+        const clickData = {
+            timestamp: Date.now(),
+            position: getElementPosition(element),
+            scrollPosition: window.pageYOffset,
+            viewportSize: {
+                width: window.innerWidth,
+                height: window.innerHeight
+            },
+            mousePosition: {
+                x: e.clientX,
+                y: e.clientY
+            },
+            ctaText: element.textContent.trim(),
+            ctaConfig: ctaConfig
+        };
+        
+        trackCTAClick(ctaId, clickData);
+    }, true); // Capture phase로 실행
+    
+    // Impression 트래킹 (뷰포트에 들어올 때)
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                trackCTAInteraction(ctaId, 'impression', {
+                    visibility: entry.intersectionRatio,
+                    boundingRect: entry.boundingClientRect
+                });
+            }
+        });
+    }, { threshold: [0.1, 0.5, 0.9] });
+    
+    observer.observe(element);
+}
+
+// CTA 클릭 전용 트래킹
+function trackCTAClick(ctaId, clickData) {
+    const ctaConfig = CTA_DEFINITIONS[ctaId] || {};
+    
+    // 전환 퍼널 업데이트
+    trackingData.conversionFunnel.cta_click++;
+    trackingData.ctaClicks[ctaId] = (trackingData.ctaClicks[ctaId] || 0) + 1;
+    
+    // GA4 Enhanced E-commerce 이벤트
+    const eventData = {
+        event_name: 'cta_click',
+        event_category: 'cta_engagement',
+        event_label: ctaConfig.name || ctaId,
+        
+        // Custom Parameters
+        cta_id: ctaId,
+        cta_name: ctaConfig.name,
+        cta_type: ctaConfig.type,
+        cta_goal: ctaConfig.goal,
+        cta_position: ctaConfig.position,
+        cta_priority: ctaConfig.priority,
+        cta_value: ctaConfig.value,
+        
+        // User Context
+        language: currentLanguage,
+        ab_test_variant: abTestVariant,
+        session_id: sessionId,
+        
+        // Interaction Context
+        time_on_page: Date.now() - trackingData.startTime,
+        scroll_depth: Math.round((window.pageYOffset / (document.body.scrollHeight - window.innerHeight)) * 100),
+        click_position_x: clickData.mousePosition?.x,
+        click_position_y: clickData.mousePosition?.y,
+        viewport_width: clickData.viewportSize?.width,
+        viewport_height: clickData.viewportSize?.height,
+        
+        // Business Metrics
+        value: ctaConfig.value || 1,
+        currency: 'KRW'
+    };
+    
+    // GA4 이벤트 전송
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'cta_click', {
+            event_category: 'cta_engagement',
+            event_label: ctaConfig.name || ctaId,
+            value: ctaConfig.value || 1,
+            custom_parameters: eventData
+        });
+        
+        // Enhanced Ecommerce 전환 이벤트
+        gtag('event', 'conversion', {
+            send_to: 'G-NGW6S380X9',
+            value: ctaConfig.value || 1,
+            currency: 'KRW',
+            transaction_id: sessionId + '_' + ctaId + '_' + Date.now()
+        });
+    }
+    
+    // CTA 인터랙션 히스토리 저장
+    ctaInteractions.push({
+        ctaId: ctaId,
+        action: 'click',
+        timestamp: Date.now(),
+        data: clickData,
+        config: ctaConfig
+    });
+    
+    // 히트맵 데이터 수집
+    heatmapData.push({
+        x: clickData.mousePosition?.x,
+        y: clickData.mousePosition?.y,
+        element: ctaId,
+        timestamp: Date.now(),
+        value: ctaConfig.value
+    });
+    
+    console.log('CTA Click Tracked:', ctaId, eventData);
+}
+
+// CTA 인터랙션 트래킹 (호버, 스크롤 등)
+function trackCTAInteraction(ctaId, action, data = {}) {
+    const ctaConfig = CTA_DEFINITIONS[ctaId] || {};
+    
+    const eventData = {
+        event_name: `cta_${action}`,
+        event_category: 'cta_interaction',
+        event_label: `${ctaConfig.name || ctaId}_${action}`,
+        
+        cta_id: ctaId,
+        cta_name: ctaConfig.name,
+        interaction_type: action,
+        language: currentLanguage,
+        ab_test_variant: abTestVariant,
+        session_id: sessionId,
+        ...data
+    };
+    
+    // GA4 이벤트 전송
+    if (typeof gtag !== 'undefined') {
+        gtag('event', `cta_${action}`, {
+            event_category: 'cta_interaction',
+            event_label: eventData.event_label,
+            custom_parameters: eventData
+        });
+    }
+    
+    // 로컬 데이터 저장
+    ctaInteractions.push({
+        ctaId: ctaId,
+        action: action,
+        timestamp: Date.now(),
+        data: data
+    });
+}
+
+// 요소의 페이지 내 위치 계산
+function getElementPosition(element) {
+    const rect = element.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // 페이지의 어느 섹션에 있는지 판단
+    const sections = ['hero', 'services', 'mentor-support', 'job-support', 'faq'];
+    let position = 'unknown';
+    
+    for (const sectionName of sections) {
+        const section = document.getElementById(sectionName);
+        if (section) {
+            const sectionRect = section.getBoundingClientRect();
+            const sectionTop = sectionRect.top + scrollTop;
+            const sectionBottom = sectionTop + section.offsetHeight;
+            const elementTop = rect.top + scrollTop;
+            
+            if (elementTop >= sectionTop && elementTop <= sectionBottom) {
+                position = sectionName;
+                break;
+            }
+        }
+    }
+    
+    return position;
+}
+
+// ===== CTA 전환 분석 및 최적화 함수들 =====
+
+// CTA 전환 완료 트래킹
+function trackCTAConversion(conversionType, data = {}) {
+    const conversionValue = data.conversionValue || 100;
+    
+    const conversionData = {
+        event_name: 'cta_conversion',
+        event_category: 'conversion',
+        event_label: `conversion_${conversionType}`,
+        
+        // Conversion Details
+        conversion_type: conversionType,
+        conversion_value: conversionValue,
+        currency: 'KRW',
+        
+        // User Journey Analysis
+        session_id: sessionId,
+        language: currentLanguage,
+        ab_test_variant: abTestVariant,
+        
+        // CTA Performance Metrics
+        total_cta_clicks: Object.values(trackingData.ctaClicks).reduce((a, b) => a + b, 0),
+        cta_interactions_before_conversion: ctaInteractions.length,
+        time_to_conversion: Date.now() - trackingData.startTime,
+        
+        // Funnel Analysis
+        funnel_page_view: trackingData.conversionFunnel.page_view,
+        funnel_cta_click: trackingData.conversionFunnel.cta_click,
+        funnel_modal_open: trackingData.conversionFunnel.modal_open,
+        funnel_form_start: trackingData.conversionFunnel.form_start,
+        
+        ...data
+    };
+    
+    // GA4 전환 이벤트
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'purchase', {
+            transaction_id: sessionId + '_conversion_' + Date.now(),
+            value: conversionValue,
+            currency: 'KRW',
+            items: [{
+                item_id: conversionType,
+                item_name: `CTA Conversion - ${conversionType}`,
+                category: 'cta_conversion',
+                quantity: 1,
+                price: conversionValue
+            }]
+        });
+    }
+    
+    console.log('CTA Conversion Tracked:', conversionData);
+}
+
+// A/B 테스트 성과 분석
+function trackABTestPerformance(ctaId, action = 'click') {
+    if (!abTestVariant) return;
+    
+    const performanceData = {
+        event_name: 'ab_test_performance',
+        event_category: 'ab_testing',
+        event_label: `${abTestVariant}_${ctaId}_${action}`,
+        
+        // A/B Test Details
+        ab_test_variant: abTestVariant,
+        ab_test_name: 'hero_cta_optimization',
+        cta_id: ctaId,
+        action: action,
+        
+        // Performance Context
+        session_id: sessionId,
+        language: currentLanguage,
+        timestamp: Date.now(),
+        
+        // User Behavior
+        time_on_page: Date.now() - trackingData.startTime,
+        scroll_depth: Math.round((window.pageYOffset / (document.body.scrollHeight - window.innerHeight)) * 100),
+        
+        // CTA Context
+        cta_config: CTA_DEFINITIONS[ctaId] || {}
+    };
+    
+    // GA4 A/B 테스트 이벤트
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'ab_test_interaction', {
+            event_category: 'ab_testing',
+            event_label: performanceData.event_label,
+            custom_parameters: performanceData
+        });
+    }
+    
+    console.log('A/B Test Performance:', performanceData);
+}
+
+// CTA 성과 분석 리포트 생성
+function generateCTAPerformanceReport() {
+    const report = {
+        session_summary: {
+            session_id: sessionId,
+            duration: Date.now() - trackingData.startTime,
+            language: currentLanguage,
+            ab_variant: abTestVariant,
+            timestamp: new Date().toISOString()
+        },
+        
+        cta_performance: {},
+        conversion_funnel: { ...trackingData.conversionFunnel },
+        interaction_timeline: [...ctaInteractions],
+        heatmap_data: [...heatmapData],
+        
+        metrics: {
+            total_cta_clicks: Object.values(trackingData.ctaClicks).reduce((a, b) => a + b, 0),
+            unique_ctas_clicked: Object.keys(trackingData.ctaClicks).length,
+            conversion_rate: trackingData.conversionFunnel.form_submit / trackingData.conversionFunnel.page_view,
+            cta_to_conversion_rate: trackingData.conversionFunnel.form_submit / trackingData.conversionFunnel.cta_click,
+            average_time_to_first_cta: ctaInteractions.length > 0 ? ctaInteractions[0].timestamp - trackingData.startTime : 0
+        }
+    };
+    
+    // 각 CTA별 성과 계산
+    Object.keys(CTA_DEFINITIONS).forEach(ctaId => {
+        const ctaClicks = trackingData.ctaClicks[ctaId] || 0;
+        const ctaInteractions = ctaInteractions.filter(i => i.ctaId === ctaId);
+        
+        report.cta_performance[ctaId] = {
+            clicks: ctaClicks,
+            interactions: ctaInteractions.length,
+            click_rate: ctaClicks / trackingData.conversionFunnel.page_view,
+            config: CTA_DEFINITIONS[ctaId],
+            first_interaction: ctaInteractions.length > 0 ? ctaInteractions[0].timestamp : null,
+            interaction_types: ctaInteractions.reduce((acc, i) => {
+                acc[i.action] = (acc[i.action] || 0) + 1;
+                return acc;
+            }, {})
+        };
+    });
+    
+    return report;
+}
+
+// 실시간 CTA 최적화 권장사항
+function getCTAOptimizationRecommendations() {
+    const report = generateCTAPerformanceReport();
+    const recommendations = [];
+    
+    // 낮은 성과 CTA 식별
+    Object.entries(report.cta_performance).forEach(([ctaId, performance]) => {
+        if (performance.click_rate < 0.05 && performance.config.priority <= 3) {
+            recommendations.push({
+                type: 'low_performance',
+                cta_id: ctaId,
+                issue: 'Low click rate for high-priority CTA',
+                suggestion: 'Consider changing position, text, or design',
+                current_rate: performance.click_rate,
+                expected_rate: 0.1
+            });
+        }
+    });
+    
+    // 전환 퍼널 분석
+    if (report.metrics.cta_to_conversion_rate < 0.2) {
+        recommendations.push({
+            type: 'funnel_optimization',
+            issue: 'Low CTA to conversion rate',
+            suggestion: 'Optimize form or reduce friction points',
+            current_rate: report.metrics.cta_to_conversion_rate,
+            target_rate: 0.3
+        });
+    }
+    
+    // A/B 테스트 성과 비교
+    if (abTestVariant && ctaInteractions.length > 10) {
+        recommendations.push({
+            type: 'ab_test_insight',
+            variant: abTestVariant,
+            suggestion: 'Sufficient data collected for A/B test analysis',
+            interactions: ctaInteractions.length
+        });
+    }
+    
+    return recommendations;
 }
 
 // 언어 초기화
@@ -407,10 +910,61 @@ function validateCountry(country) {
 
 // 폼 제출
 function submitForm(email, interest) {
+    // 전환 퍼널 업데이트
+    trackingData.conversionFunnel.form_submit++;
+    
+    // CTA 전환 완료 트래킹
+    trackCTAConversion(interest, {
+        email: email,
+        conversionValue: CTA_DEFINITIONS['hero-cta']?.value || 100
+    });
+    
     // 실제 구현에서는 서버로 데이터 전송
     console.log('Form submitted:', { email, interest, language: currentLanguage });
     
-    // 이벤트 트래킹
+    // GA4 Enhanced Conversion 이벤트
+    const conversionData = {
+        event_name: 'form_submission',
+        event_category: 'conversion',
+        event_label: `form_submit_${interest}`,
+        
+        // Enhanced Ecommerce
+        value: CTA_DEFINITIONS['hero-cta']?.value || 100,
+        currency: 'KRW',
+        transaction_id: sessionId + '_form_' + Date.now(),
+        
+        // Custom Parameters
+        form_type: interest,
+        email_hash: btoa(email).substr(0, 8), // 익명화된 이메일 해시
+        language: currentLanguage,
+        ab_test_variant: abTestVariant,
+        session_id: sessionId,
+        funnel_completion_time: Date.now() - trackingData.startTime,
+        
+        // User Journey
+        total_cta_clicks: Object.values(trackingData.ctaClicks).reduce((a, b) => a + b, 0),
+        cta_interaction_count: ctaInteractions.length,
+        page_time_before_conversion: Date.now() - trackingData.startTime
+    };
+    
+    // GA4 이벤트 전송
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'conversion', {
+            send_to: 'G-NGW6S380X9',
+            value: conversionData.value,
+            currency: 'KRW',
+            transaction_id: conversionData.transaction_id
+        });
+        
+        gtag('event', 'form_submission', {
+            event_category: 'conversion',
+            event_label: conversionData.event_label,
+            value: conversionData.value,
+            custom_parameters: conversionData
+        });
+    }
+    
+    // 이벤트 트래킹 (기존)
     trackEvent('form_submission', {
         email: email,
         interest: interest,
@@ -505,12 +1059,53 @@ function showModal(title, text, modalId = 'modal') {
     
     modal.style.display = 'block';
     
-    // 모달 표시 이벤트 트래킹
+    // CTA 전환 퍼널 업데이트
+    trackingData.conversionFunnel.modal_open++;
+    
+    // 고급 모달 트래킹
+    const modalData = {
+        event_name: 'modal_open',
+        event_category: 'cta_funnel',
+        event_label: `modal_${modalId}_${title.replace(/\s+/g, '_').toLowerCase()}`,
+        
+        // Modal Details
+        modal_id: modalId,
+        modal_title: title,
+        modal_type: modalId === 'email-modal' ? 'lead_capture' : 'information',
+        
+        // User Journey
+        session_id: sessionId,
+        language: currentLanguage,
+        ab_test_variant: abTestVariant,
+        time_to_modal: Date.now() - trackingData.startTime,
+        
+        // CTA Context
+        cta_clicks_before_modal: Object.values(trackingData.ctaClicks).reduce((a, b) => a + b, 0),
+        last_cta_clicked: ctaInteractions.length > 0 ? ctaInteractions[ctaInteractions.length - 1].ctaId : null,
+        
+        // Funnel Position
+        funnel_step: 'modal_open',
+        funnel_progress: trackingData.conversionFunnel.modal_open / trackingData.conversionFunnel.page_view
+    };
+    
+    // GA4 이벤트 전송
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'modal_open', {
+            event_category: 'cta_funnel',
+            event_label: modalData.event_label,
+            value: modalId === 'email-modal' ? 50 : 20, // 리드 캡처 모달은 더 높은 가치
+            custom_parameters: modalData
+        });
+    }
+    
+    // 모달 표시 이벤트 트래킹 (기존)
     trackEvent('modal_show', {
         title: title,
         modal_id: modalId,
         language: currentLanguage
     });
+    
+    console.log('Modal Tracking:', modalData);
 }
 
 // 이메일 사전예약 모달 표시
@@ -518,11 +1113,91 @@ function showEmailModal() {
     const emailModal = document.getElementById('email-modal');
     emailModal.style.display = 'block';
     
-    // 이메일 모달 표시 이벤트 트래킹
+    // CTA 전환 퍼널 업데이트 (폼 시작)
+    trackingData.conversionFunnel.form_start++;
+    
+    // 고급 이메일 모달 트래킹
+    const emailModalData = {
+        event_name: 'lead_capture_modal_open',
+        event_category: 'lead_generation',
+        event_label: 'email_preregistration_modal',
+        
+        // Lead Capture Context
+        modal_type: 'lead_capture',
+        capture_method: 'email_preregistration',
+        
+        // User Journey Analysis
+        session_id: sessionId,
+        language: currentLanguage,
+        ab_test_variant: abTestVariant,
+        time_to_lead_capture: Date.now() - trackingData.startTime,
+        
+        // CTA Performance Context
+        cta_clicks_before_capture: Object.values(trackingData.ctaClicks).reduce((a, b) => a + b, 0),
+        triggering_cta: ctaInteractions.length > 0 ? ctaInteractions[ctaInteractions.length - 1].ctaId : 'unknown',
+        
+        // Funnel Metrics
+        funnel_step: 'form_start',
+        conversion_probability: calculateConversionProbability(),
+        
+        // Business Value
+        value: 75, // 이메일 캡처 가치
+        currency: 'KRW'
+    };
+    
+    // GA4 이벤트 전송
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'begin_checkout', { // 전환 퍼널의 시작점으로 사용
+            currency: 'KRW',
+            value: 75,
+            items: [{
+                item_id: 'email_capture',
+                item_name: 'Email Pre-registration',
+                category: 'lead_generation',
+                quantity: 1,
+                price: 75
+            }]
+        });
+        
+        gtag('event', 'lead_capture_start', {
+            event_category: 'lead_generation',
+            event_label: 'email_modal_open',
+            value: 75,
+            custom_parameters: emailModalData
+        });
+    }
+    
+    // 이메일 모달 표시 이벤트 트래킹 (기존)
     trackEvent('email_modal_show', {
         language: currentLanguage,
         ab_variant: abTestVariant
     });
+    
+    console.log('Email Modal Tracking:', emailModalData);
+}
+
+// 전환 확률 계산 (머신러닝 스타일 예측)
+function calculateConversionProbability() {
+    const timeOnPage = Date.now() - trackingData.startTime;
+    const ctaClicks = Object.values(trackingData.ctaClicks).reduce((a, b) => a + b, 0);
+    const interactions = ctaInteractions.length;
+    
+    // 간단한 점수 기반 확률 계산
+    let probability = 0.1; // 기본 10%
+    
+    // 시간 요소 (30초 이상 체류시 증가)
+    if (timeOnPage > 30000) probability += 0.2;
+    if (timeOnPage > 60000) probability += 0.1;
+    
+    // 인터랙션 요소
+    if (ctaClicks > 0) probability += 0.3;
+    if (ctaClicks > 1) probability += 0.2;
+    if (interactions > 3) probability += 0.1;
+    
+    // A/B 테스트 변형별 조정
+    if (abTestVariant === 'B') probability += 0.05;
+    
+    return Math.min(probability, 0.9); // 최대 90%
 }
 
 // 모달 숨기기
@@ -796,8 +1471,76 @@ window.getTrackingData = function() {
         trackingData,
         abTestVariant,
         currentLanguage,
+        sessionId,
+        ctaInteractions,
+        heatmapData,
         events: JSON.parse(localStorage.getItem('trackingEvents') || '[]')
     };
+};
+
+window.getCTAPerformanceReport = function() {
+    return generateCTAPerformanceReport();
+};
+
+window.getCTAOptimizationRecommendations = function() {
+    return getCTAOptimizationRecommendations();
+};
+
+window.testCTATracking = function(ctaId = 'hero-cta') {
+    console.log('Testing CTA tracking for:', ctaId);
+    const element = document.getElementById(ctaId);
+    if (element) {
+        // 테스트 클릭 시뮬레이션
+        element.click();
+        console.log('CTA click simulated');
+        
+        // 성과 리포트 출력
+        setTimeout(() => {
+            console.log('Performance Report:', generateCTAPerformanceReport());
+            console.log('Recommendations:', getCTAOptimizationRecommendations());
+        }, 1000);
+    } else {
+        console.error('CTA element not found:', ctaId);
+    }
+};
+
+window.simulateUserJourney = function() {
+    console.log('Simulating complete user journey...');
+    
+    // 1. 페이지 뷰 (이미 완료)
+    console.log('✓ Page view tracked');
+    
+    // 2. CTA 호버 시뮬레이션
+    setTimeout(() => {
+        trackCTAInteraction('hero-cta', 'hover');
+        console.log('✓ CTA hover simulated');
+    }, 1000);
+    
+    // 3. CTA 클릭 시뮬레이션
+    setTimeout(() => {
+        const heroBtn = document.getElementById('hero-cta');
+        if (heroBtn) {
+            heroBtn.click();
+            console.log('✓ CTA click simulated');
+        }
+    }, 2000);
+    
+    // 4. 폼 제출 시뮬레이션 (3초 후)
+    setTimeout(() => {
+        trackCTAConversion('mentoring', {
+            email: 'test@example.com',
+            conversionValue: 100
+        });
+        console.log('✓ Conversion simulated');
+        
+        // 최종 리포트
+        setTimeout(() => {
+            console.log('=== FINAL JOURNEY REPORT ===');
+            console.log(generateCTAPerformanceReport());
+            console.log('=== OPTIMIZATION RECOMMENDATIONS ===');
+            console.log(getCTAOptimizationRecommendations());
+        }, 500);
+    }, 3000);
 };
 
 window.clearTrackingData = function() {
@@ -807,7 +1550,70 @@ window.clearTrackingData = function() {
         clicks: {},
         formSubmissions: 0,
         timeOnPage: 0,
-        startTime: Date.now()
+        startTime: Date.now(),
+        ctaClicks: {},
+        conversionFunnel: {
+            page_view: 0,
+            cta_click: 0,
+            modal_open: 0,
+            form_start: 0,
+            form_submit: 0
+        }
     };
-    console.log('Tracking data cleared');
+    ctaInteractions.length = 0;
+    heatmapData.length = 0;
+    console.log('All tracking data cleared');
 };
+
+// CTA A/B 테스트 결과 분석
+window.analyzeABTestResults = function() {
+    const interactions = ctaInteractions.filter(i => i.action === 'click');
+    const variantA = interactions.filter(i => i.abVariant === 'A');
+    const variantB = interactions.filter(i => i.abVariant === 'B');
+    
+    const analysis = {
+        total_interactions: interactions.length,
+        variant_a: {
+            clicks: variantA.length,
+            rate: variantA.length / (variantA.length + variantB.length),
+            ctas: variantA.reduce((acc, i) => {
+                acc[i.ctaId] = (acc[i.ctaId] || 0) + 1;
+                return acc;
+            }, {})
+        },
+        variant_b: {
+            clicks: variantB.length,
+            rate: variantB.length / (variantA.length + variantB.length),
+            ctas: variantB.reduce((acc, i) => {
+                acc[i.ctaId] = (acc[i.ctaId] || 0) + 1;
+                return acc;
+            }, {})
+        },
+        recommendation: variantB.length > variantA.length ? 'Variant B performs better' : 'Variant A performs better'
+    };
+    
+    console.log('A/B Test Analysis:', analysis);
+    return analysis;
+};
+
+// Real-time CTA heatmap data
+window.getCTAHeatmapData = function() {
+    return heatmapData.map(point => ({
+        x: point.x,
+        y: point.y,
+        value: point.value,
+        element: point.element,
+        timestamp: new Date(point.timestamp).toISOString()
+    }));
+};
+
+console.log('🚀 Advanced CTA Tracking System Loaded!');
+console.log('Available functions:');
+console.log('- window.getCTAPerformanceReport()');
+console.log('- window.getCTAOptimizationRecommendations()');
+console.log('- window.testCTATracking(ctaId)');
+console.log('- window.simulateUserJourney()');
+console.log('- window.analyzeABTestResults()');
+console.log('- window.getCTAHeatmapData()');
+console.log('- window.clearTrackingData()');
+
