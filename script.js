@@ -1,11 +1,4 @@
-// GitHub Pages base href ?�정 (배포 ?�경?�서�?
-if (window.location.hostname === 'yeaaaaaaaaaap.github.io') {
-    const baseElement = document.createElement('base');
-    baseElement.href = '/Foreigner-P2P-Mentor-Job-Service/';
-    document.head.insertBefore(baseElement, document.head.firstChild);
-}
-
-// ?�역 변?��? ?�러 처리
+// 전역 변수와 에러 처리
 let currentLanguage = 'en';
 let abTestVariant = null;
 let sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -27,10 +20,10 @@ let trackingData = {
     }
 };
 
-// ?�역 ?�러 처리
+// ?�역 ?�러 처리
 window.addEventListener('error', function(event) {
     console.error('Global error:', event.error);
-    // ?�러 추적 (?�제 ?�영 ?�경?�서???�러 로깅 ?�비?�로 ?�송)
+    // ?�러 추적 (?�제 ?�영 ?�경?�서???�러 로깅 ?�비?�로 ?�송)
     if (typeof gtag !== 'undefined') {
         gtag('event', 'exception', {
             description: event.error?.message || 'Unknown error',
@@ -50,9 +43,9 @@ window.addEventListener('unhandledrejection', function(event) {
     }
 });
 
-// ?�틸리티 ?�수??
+// ?�틸리티 ?�수??
 const utils = {
-    // ?�전???�소 ?�택
+    // ?�전???�소 ?�택
     safeQuerySelector: function(selector) {
         try {
             return document.querySelector(selector);
@@ -62,7 +55,7 @@ const utils = {
         }
     },
     
-    // ?�전???�벤??리스??추�?
+    // ?�전???�벤??리스??추�?
     safeAddEventListener: function(element, event, handler, options = {}) {
         if (!element || typeof handler !== 'function') {
             console.warn('Invalid element or handler for event listener');
@@ -78,7 +71,7 @@ const utils = {
         }
     },
     
-    // ?�바?�스 ?�수
+    // ?�바?�스 ?�수
     debounce: function(func, wait, immediate) {
         let timeout;
         return function executedFunction(...args) {
@@ -93,7 +86,7 @@ const utils = {
         };
     },
     
-    // ?�로?� ?�수
+    // ?�로?� ?�수
     throttle: function(func, limit) {
         let inThrottle;
         return function(...args) {
@@ -106,9 +99,9 @@ const utils = {
     }
 };
 
-// CTA ?�의 �??�선?�위
+// CTA ?�의 �??�선?�위
 const CTA_DEFINITIONS = {
-    // Primary CTAs (최우???�환 목표)
+    // Primary CTAs (최우???�환 목표)
     'hero-cta': {
         name: 'Hero Main CTA',
         type: 'primary',
@@ -181,7 +174,7 @@ const CTA_DEFINITIONS = {
     }
 };
 
-// DOM 로드 ?�료 ???�행
+// DOM 로드 ?�료 ???�행
 document.addEventListener('DOMContentLoaded', function() {
     try {
         initializeApp();
@@ -189,20 +182,20 @@ document.addEventListener('DOMContentLoaded', function() {
         setupAccessibilityFeatures();
     } catch (error) {
         console.error('Error during app initialization:', error);
-        // 기본 기능만이?�도 ?�작?�도�?fallback
+        // 기본 기능만이?�도 ?�작?�도�?fallback
         setupBasicFeatures();
     }
 });
 
-// ?�능 모니?�링 ?�정
+// ?�능 모니?�링 ?�정
 function setupPerformanceMonitoring() {
     if ('performance' in window) {
-        // ?�이지 로드 ?�간 측정
+        // ?�이지 로드 ?�간 측정
         window.addEventListener('load', utils.debounce(function() {
             const loadTime = performance.now();
             console.log('Page load time:', loadTime + 'ms');
             
-            // GA4???�능 ?�이???�송
+            // GA4???�능 ?�이???�송
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'page_load_time', {
                     event_category: 'performance',
@@ -219,7 +212,7 @@ function setupPerformanceMonitoring() {
 // Core Web Vitals 측정
 function measureCoreWebVitals() {
     if ('web-vital' in window) {
-        // ?��? ?�이브러리�? 로드??경우
+        // ?��? ?�이브러리�? 로드??경우
         return;
     }
     
@@ -245,22 +238,22 @@ function measureCoreWebVitals() {
     }
 }
 
-// ?�근??기능 ?�정
+// ?�근??기능 ?�정
 function setupAccessibilityFeatures() {
-    // ?�보???�비게이??지??
+    // ?�보???�비게이??지??
     setupKeyboardNavigation();
     
-    // ?�커???�랩 ?�정
+    // ?�커???�랩 ?�정
     setupFocusTraps();
     
-    // ?�크�?리더 지??
+    // ?�크�?리더 지??
     setupScreenReaderSupport();
 }
 
-// ?�보???�비게이???�정
+// ?�보???�비게이???�정
 function setupKeyboardNavigation() {
     document.addEventListener('keydown', function(e) {
-        // ESC ?�로 모달 ?�기
+        // ESC ?�로 모달 ?�기
         if (e.key === 'Escape') {
             const openModal = utils.safeQuerySelector('.modal.active');
             if (openModal) {
@@ -268,16 +261,16 @@ function setupKeyboardNavigation() {
             }
         }
         
-        // Tab ???�환 ?�비게이??
+        // Tab ???�환 ?�비게이??
         if (e.key === 'Tab') {
             handleTabNavigation(e);
         }
     });
 }
 
-// 기본 기능 ?�정 (fallback)
+// 기본 기능 ?�정 (fallback)
 function setupBasicFeatures() {
-    // 기본?�인 ?�어 ?�환 기능
+    // 기본?�인 ?�어 ?�환 기능
     const langButtons = document.querySelectorAll('.lang-btn');
     langButtons.forEach(btn => {
         utils.safeAddEventListener(btn, 'click', function() {
@@ -288,7 +281,7 @@ function setupBasicFeatures() {
         });
     });
     
-    // 기본?�인 CTA 버튼 기능
+    // 기본?�인 CTA 버튼 기능
     const ctaButtons = document.querySelectorAll('.cta-btn');
     ctaButtons.forEach(btn => {
         utils.safeAddEventListener(btn, 'click', function(e) {
@@ -306,7 +299,7 @@ function initializeApp() {
         initializeABTest();
         initializeServiceSelector();
         initializeEventTracking();
-        initializeCTATracking(); // CTA ?�용 ?�래??추�?
+        initializeCTATracking(); // CTA ?�용 ?�래??추�?
         initializeFAQ();
         initializeFAQTabs();
         initializeScrollAnimations();
@@ -314,31 +307,31 @@ function initializeApp() {
         initializeModal();
         initializeMobileMenu();
         
-        // ?�이지 �??�래??(?�환 ?�널 ?�작)
+        // ?�이지 �??�래??(?�환 ?�널 ?�작)
         trackEvent('page_view', { 
             page: 'landing',
             category: 'page_view',
             label: 'landing_page_load'
         });
         
-        // ?�환 ?�널 ?�작??기록
+        // ?�환 ?�널 ?�작??기록
         trackingData.conversionFunnel.page_view++;
         
-        // ?�간 추적 ?�작
+        // ?�간 추적 ?�작
         startTimeTracking();
         
         console.log('MentorMatch Korea app initialized successfully');
     } catch (error) {
         console.error('Error initializing app:', error);
-        // 기본 기능?� 계속 ?�동?�도�???
+        // 기본 기능?� 계속 ?�동?�도�???
     }
 }
 
-// ===== CTA ?�용 고급 ?�래???�스??=====
+// ===== CTA ?�용 고급 ?�래???�스??=====
 
-// CTA ?�래??초기??
+// CTA ?�래??초기??
 function initializeCTATracking() {
-    // 모든 CTA 버튼??고급 ?�래???�정
+    // 모든 CTA 버튼??고급 ?�래???�정
     Object.keys(CTA_DEFINITIONS).forEach(ctaId => {
         const element = document.getElementById(ctaId);
         if (element) {
@@ -346,12 +339,12 @@ function initializeCTATracking() {
         }
     });
     
-    // ?�래??기반 CTA 버튼?�도 추�?
+    // ?�래??기반 CTA 버튼?�도 추�?
     const ctaButtons = document.querySelectorAll('.cta-btn');
     ctaButtons.forEach((button, index) => {
         const ctaId = button.id || `cta-${index}`;
         if (!CTA_DEFINITIONS[ctaId]) {
-            // ?�적 CTA ?�의 ?�성
+            // ?�적 CTA ?�의 ?�성
             CTA_DEFINITIONS[ctaId] = {
                 name: button.textContent.trim() || `CTA ${index + 1}`,
                 type: button.classList.contains('primary') ? 'primary' : 'secondary',
@@ -367,13 +360,13 @@ function initializeCTATracking() {
     console.log('CTA Tracking initialized for', Object.keys(CTA_DEFINITIONS).length, 'CTAs');
 }
 
-// CTA 개별 ?�래???�정
+// CTA 개별 ?�래???�정
 function setupCTATracking(element, ctaId) {
     if (!element || !ctaId) return;
     
     const ctaConfig = CTA_DEFINITIONS[ctaId];
     
-    // 마우???�벤???�래??
+    // 마우???�벤???�래??
     element.addEventListener('mouseenter', () => {
         trackCTAInteraction(ctaId, 'hover', {
             timestamp: Date.now(),
@@ -385,7 +378,7 @@ function setupCTATracking(element, ctaId) {
         trackCTAInteraction(ctaId, 'hover_end');
     });
     
-    // ?�릭 ?�벤???�래??(기존 ?�릭 리스?�보??먼�? ?�행)
+    // ?�릭 ?�벤???�래??(기존 ?�릭 리스?�보??먼�? ?�행)
     element.addEventListener('click', (e) => {
         const clickData = {
             timestamp: Date.now(),
@@ -404,9 +397,9 @@ function setupCTATracking(element, ctaId) {
         };
         
         trackCTAClick(ctaId, clickData);
-    }, true); // Capture phase�??�행
+    }, true); // Capture phase�??�행
     
-    // Impression ?�래??(뷰포?�에 ?�어????
+    // Impression ?�래??(뷰포?�에 ?�어????
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -421,15 +414,15 @@ function setupCTATracking(element, ctaId) {
     observer.observe(element);
 }
 
-// CTA ?�릭 ?�용 ?�래??
+// CTA ?�릭 ?�용 ?�래??
 function trackCTAClick(ctaId, clickData) {
     const ctaConfig = CTA_DEFINITIONS[ctaId] || {};
     
-    // ?�환 ?�널 ?�데?�트
+    // ?�환 ?�널 ?�데?�트
     trackingData.conversionFunnel.cta_click++;
     trackingData.ctaClicks[ctaId] = (trackingData.ctaClicks[ctaId] || 0) + 1;
     
-    // GA4 Enhanced E-commerce ?�벤??
+    // GA4 Enhanced E-commerce ?�벤??
     const eventData = {
         event_name: 'cta_click',
         event_category: 'cta_engagement',
@@ -462,7 +455,7 @@ function trackCTAClick(ctaId, clickData) {
         currency: 'KRW'
     };
     
-    // GA4 ?�벤???�송
+    // GA4 ?�벤???�송
     if (typeof gtag !== 'undefined') {
         gtag('event', 'cta_click', {
             event_category: 'cta_engagement',
@@ -471,7 +464,7 @@ function trackCTAClick(ctaId, clickData) {
             custom_parameters: eventData
         });
         
-        // Enhanced Ecommerce ?�환 ?�벤??
+        // Enhanced Ecommerce ?�환 ?�벤??
         gtag('event', 'conversion', {
             send_to: 'G-NGW6S380X9',
             value: ctaConfig.value || 1,
@@ -480,7 +473,7 @@ function trackCTAClick(ctaId, clickData) {
         });
     }
     
-    // CTA ?�터?�션 ?�스?�리 ?�??
+    // CTA ?�터?�션 ?�스?�리 ?�??
     ctaInteractions.push({
         ctaId: ctaId,
         action: 'click',
@@ -489,7 +482,7 @@ function trackCTAClick(ctaId, clickData) {
         config: ctaConfig
     });
     
-    // ?�트�??�이???�집
+    // ?�트�??�이???�집
     heatmapData.push({
         x: clickData.mousePosition?.x,
         y: clickData.mousePosition?.y,
@@ -501,7 +494,7 @@ function trackCTAClick(ctaId, clickData) {
     console.log('CTA Click Tracked:', ctaId, eventData);
 }
 
-// CTA ?�터?�션 ?�래??(?�버, ?�크�???
+// CTA ?�터?�션 ?�래??(?�버, ?�크�???
 function trackCTAInteraction(ctaId, action, data = {}) {
     const ctaConfig = CTA_DEFINITIONS[ctaId] || {};
     
@@ -519,7 +512,7 @@ function trackCTAInteraction(ctaId, action, data = {}) {
         ...data
     };
     
-    // GA4 ?�벤???�송
+    // GA4 ?�벤???�송
     if (typeof gtag !== 'undefined') {
         gtag('event', `cta_${action}`, {
             event_category: 'cta_interaction',
@@ -528,7 +521,7 @@ function trackCTAInteraction(ctaId, action, data = {}) {
         });
     }
     
-    // 로컬 ?�이???�??
+    // 로컬 ?�이???�??
     ctaInteractions.push({
         ctaId: ctaId,
         action: action,
@@ -537,12 +530,12 @@ function trackCTAInteraction(ctaId, action, data = {}) {
     });
 }
 
-// ?�소???�이지 ???�치 계산
+// ?�소???�이지 ???�치 계산
 function getElementPosition(element) {
     const rect = element.getBoundingClientRect();
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     
-    // ?�이지???�느 ?�션???�는지 ?�단
+    // ?�이지???�느 ?�션???�는지 ?�단
     const sections = ['hero', 'services', 'mentor-support', 'job-support', 'faq'];
     let position = 'unknown';
     
@@ -564,9 +557,9 @@ function getElementPosition(element) {
     return position;
 }
 
-// ===== CTA ?�환 분석 �?최적???�수??=====
+// ===== CTA ?�환 분석 �?최적???�수??=====
 
-// CTA ?�환 ?�료 ?�래??
+// CTA ?�환 ?�료 ?�래??
 function trackCTAConversion(conversionType, data = {}) {
     const conversionValue = data.conversionValue || 100;
     
@@ -599,7 +592,7 @@ function trackCTAConversion(conversionType, data = {}) {
         ...data
     };
     
-    // GA4 ?�환 ?�벤??
+    // GA4 ?�환 ?�벤??
     if (typeof gtag !== 'undefined') {
         gtag('event', 'purchase', {
             transaction_id: sessionId + '_conversion_' + Date.now(),
@@ -618,7 +611,7 @@ function trackCTAConversion(conversionType, data = {}) {
     console.log('CTA Conversion Tracked:', conversionData);
 }
 
-// A/B ?�스???�과 분석
+// A/B ?�스???�과 분석
 function trackABTestPerformance(ctaId, action = 'click') {
     if (!abTestVariant) return;
     
@@ -646,7 +639,7 @@ function trackABTestPerformance(ctaId, action = 'click') {
         cta_config: CTA_DEFINITIONS[ctaId] || {}
     };
     
-    // GA4 A/B ?�스???�벤??
+    // GA4 A/B ?�스???�벤??
     if (typeof gtag !== 'undefined') {
         gtag('event', 'ab_test_interaction', {
             event_category: 'ab_testing',
@@ -658,7 +651,7 @@ function trackABTestPerformance(ctaId, action = 'click') {
     console.log('A/B Test Performance:', performanceData);
 }
 
-// CTA ?�과 분석 리포???�성
+// CTA ?�과 분석 리포???�성
 function generateCTAPerformanceReport() {
     const report = {
         session_summary: {
@@ -683,7 +676,7 @@ function generateCTAPerformanceReport() {
         }
     };
     
-    // �?CTA�??�과 계산
+    // �?CTA�??�과 계산
     Object.keys(CTA_DEFINITIONS).forEach(ctaId => {
         const ctaClicks = trackingData.ctaClicks[ctaId] || 0;
         const ctaInteractions = ctaInteractions.filter(i => i.ctaId === ctaId);
@@ -704,12 +697,12 @@ function generateCTAPerformanceReport() {
     return report;
 }
 
-// ?�시�?CTA 최적??권장?�항
+// ?�시�?CTA 최적??권장?�항
 function getCTAOptimizationRecommendations() {
     const report = generateCTAPerformanceReport();
     const recommendations = [];
     
-    // ??? ?�과 CTA ?�별
+    // ??? ?�과 CTA ?�별
     Object.entries(report.cta_performance).forEach(([ctaId, performance]) => {
         if (performance.click_rate < 0.05 && performance.config.priority <= 3) {
             recommendations.push({
@@ -723,7 +716,7 @@ function getCTAOptimizationRecommendations() {
         }
     });
     
-    // ?�환 ?�널 분석
+    // ?�환 ?�널 분석
     if (report.metrics.cta_to_conversion_rate < 0.2) {
         recommendations.push({
             type: 'funnel_optimization',
@@ -734,7 +727,7 @@ function getCTAOptimizationRecommendations() {
         });
     }
     
-    // A/B ?�스???�과 비교
+    // A/B ?�스???�과 비교
     if (abTestVariant && ctaInteractions.length > 10) {
         recommendations.push({
             type: 'ab_test_insight',
@@ -747,12 +740,12 @@ function getCTAOptimizationRecommendations() {
     return recommendations;
 }
 
-// ?�어 초기??
+// ?�어 초기??
 function initializeLanguage() {
     const langButtons = document.querySelectorAll('.lang-btn');
     const elements = document.querySelectorAll('[data-ko], [data-en]');
     
-    // ?�어 버튼 ?�벤??리스??
+    // ?�어 버튼 ?�벤??리스??
     langButtons.forEach(button => {
         button.addEventListener('click', function() {
             const selectedLang = this.getAttribute('data-lang');
@@ -760,17 +753,17 @@ function initializeLanguage() {
         });
     });
     
-    // 기본 ?�어 ?�정 (?�어�?변�?
+    // 기본 ?�어 ?�정 (?�어�?변�?
     const savedLang = localStorage.getItem('preferredLanguage') || 'en';
     switchLanguage(savedLang);
 }
 
-// ?�어 ?�환
+// ?�어 ?�환
 function switchLanguage(lang) {
     currentLanguage = lang;
     localStorage.setItem('preferredLanguage', lang);
     
-    // ?�어 버튼 ?�태 ?�데?�트
+    // ?�어 버튼 ?�태 ?�데?�트
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.remove('active');
         if (btn.getAttribute('data-lang') === lang) {
@@ -778,7 +771,7 @@ function switchLanguage(lang) {
         }
     });
     
-    // ?�스???�데?�트
+    // ?�스???�데?�트
     document.querySelectorAll('[data-ko], [data-en]').forEach(element => {
         const text = element.getAttribute(`data-${lang}`);
         if (text) {
@@ -786,57 +779,57 @@ function switchLanguage(lang) {
         }
     });
     
-    // ?�이지 ?�목 ?�데?�트
+    // ?�이지 ?�목 ?�데?�트
     if (lang === 'ko') {
-        document.title = '?�국??멘토 & ?�전???�기?�바 매칭 | MentorMatch Korea';
+        document.title = '?�국??멘토 & ?�전???�기?�바 매칭 | MentorMatch Korea';
     } else {
         document.title = 'Foreign Mentor & Safe Part-time Job Matching | MentorMatch Korea';
     }
     
-    // ?�어 변�??�벤???�래??
+    // ?�어 변�??�벤???�래??
     trackEvent('language_change', { language: lang });
 }
 
-// A/B ?�스??초기??
+// A/B ?�스??초기??
 function initializeABTest() {
-    // A/B ?�스??변??결정 (50:50 비율)
+    // A/B ?�스??변??결정 (50:50 비율)
     abTestVariant = Math.random() < 0.5 ? 'A' : 'B';
     
-    // 변?�에 ?�른 ?��????�용
+    // 변?�에 ?�른 ?��????�용
     document.body.classList.add(`ab-test-variant-${abTestVariant.toLowerCase()}`);
     
-    // ?�어�??�드?�인 A/B ?�스??
+    // ?�어�??�드?�인 A/B ?�스??
     if (abTestVariant === 'B') {
         const heroTitle = document.querySelector('.hero-title');
         if (heroTitle) {
             if (currentLanguage === 'ko') {
-                heroTitle.textContent = '?�국?�서 ?�공?�는 ?�국?�을 ?�한 ?�별??기회';
+                heroTitle.textContent = '?�국?�서 ?�공?�는 ?�국?�을 ?�한 ?�별??기회';
             } else {
                 heroTitle.textContent = 'Special Opportunities for Internationals to Succeed in Korea';
             }
         }
     }
     
-    // CTA 버튼 ?�스??A/B ?�스??
+    // CTA 버튼 ?�스??A/B ?�스??
     const ctaButtons = document.querySelectorAll('.cta-btn.primary');
     ctaButtons.forEach(button => {
         if (abTestVariant === 'B') {
             if (currentLanguage === 'ko') {
-                button.textContent = '지�?바로 ?�작?�기';
+                button.textContent = '지�?바로 ?�작?�기';
             } else {
                 button.textContent = 'Start Right Now';
             }
         }
     });
     
-    // A/B ?�스???�작 ?�벤???�래??
+    // A/B ?�스???�작 ?�벤???�래??
     trackEvent('ab_test_start', { 
         variant: abTestVariant,
         test_name: 'hero_headline_cta'
     });
 }
 
-// ?�비???�택 초기??
+// ?�비???�택 초기??
 function initializeServiceSelector() {
     const serviceButtons = document.querySelectorAll('.service-btn');
     const mentorSection = document.getElementById('mentor-support');
@@ -846,19 +839,19 @@ function initializeServiceSelector() {
         button.addEventListener('click', function() {
             const selectedService = this.getAttribute('data-service');
             
-            // 모든 버튼?�서 active ?�래???�거
+            // 모든 버튼?�서 active ?�래???�거
             serviceButtons.forEach(btn => btn.classList.remove('active'));
-            // ?�릭??버튼??active ?�래??추�?
+            // ?�릭??버튼??active ?�래??추�?
             this.classList.add('active');
             
-            // ?�당 ?�션?�로 ?�크�?
+            // ?�당 ?�션?�로 ?�크�?
             if (selectedService === 'mentor' && mentorSection) {
                 mentorSection.scrollIntoView({ behavior: 'smooth' });
             } else if (selectedService === 'job' && jobSection) {
                 jobSection.scrollIntoView({ behavior: 'smooth' });
             }
             
-            // ?�비???�택 ?�벤???�래??
+            // ?�비???�택 ?�벤???�래??
             trackEvent('service_selection', {
                 service: selectedService,
                 language: currentLanguage,
@@ -877,23 +870,23 @@ function initializeFAQTabs() {
         tab.addEventListener('click', function() {
             const tabType = this.getAttribute('data-tab');
             
-            // 모든 ??��??active ?�래???�거
+            // 모든 ??��??active ?�래???�거
             faqTabs.forEach(t => t.classList.remove('active'));
-            // ?�릭????�� active ?�래??추�?
+            // ?�릭????�� active ?�래??추�?
             this.classList.add('active');
             
-            // 모든 ?�션 ?�기�?
+            // 모든 ?�션 ?�기�?
             faqSections.forEach(section => {
                 section.style.display = 'none';
             });
             
-            // ?�택???�션 ?�시
+            // ?�택???�션 ?�시
             const targetSection = document.getElementById(`faq-${tabType}`);
             if (targetSection) {
                 targetSection.style.display = 'block';
             }
             
-            // FAQ ???�환 ?�벤???�래??
+            // FAQ ???�환 ?�벤???�래??
             trackEvent('faq_tab_switch', {
                 tab: tabType,
                 language: currentLanguage
@@ -912,14 +905,14 @@ function initializeMobileMenu() {
             navMenu.classList.toggle('active');
             this.classList.toggle('active');
             
-            // 모바??메뉴 ?��? ?�벤???�래??
+            // 모바??메뉴 ?��? ?�벤???�래??
             trackEvent('mobile_menu_toggle', {
                 language: currentLanguage,
                 action: navMenu.classList.contains('active') ? 'open' : 'close'
             });
         });
         
-        // 메뉴 링크 ?�릭 ??모바??메뉴 ?�기
+        // 메뉴 링크 ?�릭 ??모바??메뉴 ?�기
         const navLinks = document.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', function() {
@@ -928,7 +921,7 @@ function initializeMobileMenu() {
             });
         });
         
-        // ?��? ?�릭 ??모바??메뉴 ?�기
+        // ?��? ?�릭 ??모바??메뉴 ?�기
         document.addEventListener('click', function(e) {
             if (!navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
                 navMenu.classList.remove('active');
@@ -938,9 +931,9 @@ function initializeMobileMenu() {
     }
 }
 
-// ?�벤???�래??초기??
+// ?�벤???�래??초기??
 function initializeEventTracking() {
-    // 모든 CTA 버튼???�릭 ?�래??추�?
+    // 모든 CTA 버튼???�릭 ?�래??추�?
     document.querySelectorAll('.cta-btn, .nav-link').forEach(element => {
         element.addEventListener('click', function(e) {
             const elementText = this.textContent.trim();
@@ -955,7 +948,7 @@ function initializeEventTracking() {
         });
     });
     
-    // ?�별??CTA 버튼??
+    // ?�별??CTA 버튼??
     const specialCTAs = {
         'hero-cta': 'hero_cta_click',
         'legality-check': 'legality_check_click',
@@ -987,12 +980,12 @@ function initializeFAQ() {
         question.addEventListener('click', function() {
             const isActive = item.classList.contains('active');
             
-            // 모든 FAQ ?�이???�기
+            // 모든 FAQ ?�이???�기
             faqItems.forEach(faqItem => {
                 faqItem.classList.remove('active');
             });
             
-            // ?�릭???�이?�만 ?�기
+            // ?�릭???�이?�만 ?�기
             if (!isActive) {
                 item.classList.add('active');
                 trackEvent('faq_open', {
@@ -1004,7 +997,7 @@ function initializeFAQ() {
     });
 }
 
-// ?�크�??�니메이??초기??
+// ?�크�??�니메이??초기??
 function initializeScrollAnimations() {
     const observerOptions = {
         threshold: 0.1,
@@ -1014,12 +1007,12 @@ function initializeScrollAnimations() {
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
-                // 지???�니메이?�을 ?�한 timeout
+                // 지???�니메이?�을 ?�한 timeout
                 setTimeout(() => {
                     entry.target.classList.add('visible');
                 }, index * 100);
                 
-                // ?�션 �??�래??
+                // ?�션 �??�래??
                 const sectionId = entry.target.id;
                 if (sectionId) {
                     trackEvent('section_view', {
@@ -1031,14 +1024,14 @@ function initializeScrollAnimations() {
         });
     }, observerOptions);
     
-    // ?�니메이???�???�소??관�?
+    // ?�니메이???�???�소??관�?
     const animatedElements = document.querySelectorAll(`
         .feature-card, .job-card, .mentor-feature, .faq-item, 
         .service-card, .stat, .floating-card, .section-header
     `);
     
     animatedElements.forEach((el, index) => {
-        // ?�양???�니메이???�래???�용
+        // ?�양???�니메이???�래???�용
         if (index % 3 === 0) {
             el.classList.add('fade-in');
         } else if (index % 3 === 1) {
@@ -1050,7 +1043,7 @@ function initializeScrollAnimations() {
         observer.observe(el);
     });
     
-    // ?�어�??�션 ?�별 ?�니메이??
+    // ?�어�??�션 ?�별 ?�니메이??
     const heroElements = document.querySelectorAll('.hero-title, .hero-subtitle, .service-selector, .hero-cta, .hero-stats');
     heroElements.forEach((el, index) => {
         el.classList.add('fade-in');
@@ -1074,13 +1067,13 @@ function initializeFormHandling() {
             if (validateEmail(email)) {
                 submitForm(email, interest);
             } else {
-                showNotification('?�바�??�메??주소�??�력?�주?�요.', 'error');
+                showNotification('?�바�??�메??주소�??�력?�주?�요.', 'error');
             }
         });
     }
 }
 
-// ?�메???�효??검??
+// ?�메???�효??검??
 function validateEmail(email) {
     if (!email || typeof email !== 'string') {
         return false;
@@ -1089,7 +1082,7 @@ function validateEmail(email) {
     return emailRegex.test(email.trim());
 }
 
-// ?�름 ?�효??검??
+// ?�름 ?�효??검??
 function validateName(name) {
     if (!name || typeof name !== 'string') {
         return false;
@@ -1098,7 +1091,7 @@ function validateName(name) {
     return trimmedName.length >= 2 && trimmedName.length <= 50;
 }
 
-// �?? ?�효??검??
+// �?? ?�효??검??
 function validateCountry(country) {
     if (!country || typeof country !== 'string') {
         return false;
@@ -1107,21 +1100,21 @@ function validateCountry(country) {
     return trimmedCountry.length >= 2 && trimmedCountry.length <= 50;
 }
 
-// ???�출
+// ???�출
 function submitForm(email, interest) {
-    // ?�환 ?�널 ?�데?�트
+    // ?�환 ?�널 ?�데?�트
     trackingData.conversionFunnel.form_submit++;
     
-    // CTA ?�환 ?�료 ?�래??
+    // CTA ?�환 ?�료 ?�래??
     trackCTAConversion(interest, {
         email: email,
         conversionValue: CTA_DEFINITIONS['hero-cta']?.value || 100
     });
     
-    // ?�제 구현?�서???�버�??�이???�송
+    // ?�제 구현?�서???�버�??�이???�송
     console.log('Form submitted:', { email, interest, language: currentLanguage });
     
-    // GA4 Enhanced Conversion ?�벤??
+    // GA4 Enhanced Conversion ?�벤??
     const conversionData = {
         event_name: 'form_submission',
         event_category: 'conversion',
@@ -1134,7 +1127,7 @@ function submitForm(email, interest) {
         
         // Custom Parameters
         form_type: interest,
-        email_hash: btoa(email).substr(0, 8), // ?�명?�된 ?�메???�시
+        email_hash: btoa(email).substr(0, 8), // ?�명?�된 ?�메???�시
         language: currentLanguage,
         ab_test_variant: abTestVariant,
         session_id: sessionId,
@@ -1146,7 +1139,7 @@ function submitForm(email, interest) {
         page_time_before_conversion: Date.now() - trackingData.startTime
     };
     
-    // GA4 ?�벤???�송
+    // GA4 ?�벤???�송
     if (typeof gtag !== 'undefined') {
         gtag('event', 'conversion', {
             send_to: 'G-NGW6S380X9',
@@ -1163,7 +1156,7 @@ function submitForm(email, interest) {
         });
     }
     
-    // ?�벤???�래??(기존)
+    // ?�벤???�래??(기존)
     trackEvent('form_submission', {
         email: email,
         interest: interest,
@@ -1171,42 +1164,42 @@ function submitForm(email, interest) {
         ab_variant: abTestVariant
     });
     
-    // ?�비?�별 맞춤 메시지
+    // ?�비?�별 맞춤 메시지
     let successMessage, modalTitle, modalText;
     
     if (interest === 'mentoring') {
         successMessage = currentLanguage === 'ko' 
-            ? '멘토�??�청???�료?�었?�니?? �??�락?�리겠습?�다.' 
+            ? '멘토�??�청???�료?�었?�니?? �??�락?�리겠습?�다.' 
             : 'Mentoring application completed! We will contact you soon.';
-        modalTitle = currentLanguage === 'ko' ? '멘토�??�청 ?�료' : 'Mentoring Application Complete';
+        modalTitle = currentLanguage === 'ko' ? '멘토�??�청 ?�료' : 'Mentoring Application Complete';
         modalText = currentLanguage === 'ko' 
-            ? '감사?�니?? 24?�간 ?�에 멘토�??�담???�해 ?�메?�로 ?�락?�리겠습?�다.' 
+            ? '감사?�니?? 24?�간 ?�에 멘토�??�담???�해 ?�메?�로 ?�락?�리겠습?�다.' 
             : 'Thank you! We will contact you via email within 24 hours for mentoring consultation.';
     } else if (interest === 'jobs') {
         successMessage = currentLanguage === 'ko' 
-            ? '?�자�??�청???�료?�었?�니?? �??�락?�리겠습?�다.' 
+            ? '?�자�??�청???�료?�었?�니?? �??�락?�리겠습?�다.' 
             : 'Job application completed! We will contact you soon.';
-        modalTitle = currentLanguage === 'ko' ? '?�자�??�청 ?�료' : 'Job Application Complete';
+        modalTitle = currentLanguage === 'ko' ? '?�자�??�청 ?�료' : 'Job Application Complete';
         modalText = currentLanguage === 'ko' 
-            ? '감사?�니?? 24?�간 ?�에 ?�전???�자�?기회�??�메?�로 ?�내?�리겠습?�다.' 
+            ? '감사?�니?? 24?�간 ?�에 ?�전???�자�?기회�??�메?�로 ?�내?�리겠습?�다.' 
             : 'Thank you! We will contact you via email within 24 hours with safe job opportunities.';
     } else {
         successMessage = currentLanguage === 'ko' 
-            ? '?�청???�료?�었?�니?? �??�락?�리겠습?�다.' 
+            ? '?�청???�료?�었?�니?? �??�락?�리겠습?�다.' 
             : 'Application completed! We will contact you soon.';
-        modalTitle = currentLanguage === 'ko' ? '?�청 ?�료' : 'Application Complete';
+        modalTitle = currentLanguage === 'ko' ? '?�청 ?�료' : 'Application Complete';
         modalText = currentLanguage === 'ko' 
-            ? '감사?�니?? 24?�간 ?�에 ?�메?�로 ?�락?�리겠습?�다.' 
+            ? '감사?�니?? 24?�간 ?�에 ?�메?�로 ?�락?�리겠습?�다.' 
             : 'Thank you! We will contact you via email within 24 hours.';
     }
     
-    // ?�공 메시지 ?�시
+    // ?�공 메시지 ?�시
     showNotification(successMessage, 'success');
     
     // ??리셋
     document.getElementById('email-form').reset();
     
-    // 모달 ?�시
+    // 모달 ?�시
     showModal(modalTitle, modalText);
 }
 
@@ -1235,7 +1228,7 @@ function initializeModal() {
         }
     });
     
-    // ?�메???�전?�약 ??처리
+    // ?�메???�전?�약 ??처리
     const emailModalForm = document.getElementById('email-modal-form');
     if (emailModalForm) {
         emailModalForm.addEventListener('submit', function(e) {
@@ -1245,7 +1238,7 @@ function initializeModal() {
     }
 }
 
-// 모달 ?�시
+// 모달 ?�시
 function showModal(title, text, modalId = 'modal') {
     const modal = document.getElementById(modalId);
     const modalTitle = document.getElementById('modal-title');
@@ -1258,10 +1251,10 @@ function showModal(title, text, modalId = 'modal') {
     
     modal.style.display = 'block';
     
-    // CTA ?�환 ?�널 ?�데?�트
+    // CTA ?�환 ?�널 ?�데?�트
     trackingData.conversionFunnel.modal_open++;
     
-    // 고급 모달 ?�래??
+    // 고급 모달 ?�래??
     const modalData = {
         event_name: 'modal_open',
         event_category: 'cta_funnel',
@@ -1287,17 +1280,17 @@ function showModal(title, text, modalId = 'modal') {
         funnel_progress: trackingData.conversionFunnel.modal_open / trackingData.conversionFunnel.page_view
     };
     
-    // GA4 ?�벤???�송
+    // GA4 ?�벤???�송
     if (typeof gtag !== 'undefined') {
         gtag('event', 'modal_open', {
             event_category: 'cta_funnel',
             event_label: modalData.event_label,
-            value: modalId === 'email-modal' ? 50 : 20, // 리드 캡처 모달?� ???��? 가�?
+            value: modalId === 'email-modal' ? 50 : 20, // 리드 캡처 모달?� ???��? 가�?
             custom_parameters: modalData
         });
     }
     
-    // 모달 ?�시 ?�벤???�래??(기존)
+    // 모달 ?�시 ?�벤???�래??(기존)
     trackEvent('modal_show', {
         title: title,
         modal_id: modalId,
@@ -1307,15 +1300,15 @@ function showModal(title, text, modalId = 'modal') {
     console.log('Modal Tracking:', modalData);
 }
 
-// ?�메???�전?�약 모달 ?�시
+// ?�메???�전?�약 모달 ?�시
 function showEmailModal() {
     const emailModal = document.getElementById('email-modal');
     emailModal.style.display = 'block';
     
-    // CTA ?�환 ?�널 ?�데?�트 (???�작)
+    // CTA ?�환 ?�널 ?�데?�트 (???�작)
     trackingData.conversionFunnel.form_start++;
     
-    // 고급 ?�메??모달 ?�래??
+    // 고급 ?�메??모달 ?�래??
     const emailModalData = {
         event_name: 'lead_capture_modal_open',
         event_category: 'lead_generation',
@@ -1340,13 +1333,13 @@ function showEmailModal() {
         conversion_probability: calculateConversionProbability(),
         
         // Business Value
-        value: 75, // ?�메??캡처 가�?
+        value: 75, // ?�메??캡처 가�?
         currency: 'KRW'
     };
     
-    // GA4 ?�벤???�송
+    // GA4 ?�벤???�송
     if (typeof gtag !== 'undefined') {
-        gtag('event', 'begin_checkout', { // ?�환 ?�널???�작?�으�??�용
+        gtag('event', 'begin_checkout', { // ?�환 ?�널???�작?�으�??�용
             currency: 'KRW',
             value: 75,
             items: [{
@@ -1366,7 +1359,7 @@ function showEmailModal() {
         });
     }
     
-    // ?�메??모달 ?�시 ?�벤???�래??(기존)
+    // ?�메??모달 ?�시 ?�벤???�래??(기존)
     trackEvent('email_modal_show', {
         language: currentLanguage,
         ab_variant: abTestVariant
@@ -1375,43 +1368,43 @@ function showEmailModal() {
     console.log('Email Modal Tracking:', emailModalData);
 }
 
-// ?�환 ?�률 계산 (머신?�닝 ?��????�측)
+// ?�환 ?�률 계산 (머신?�닝 ?��????�측)
 function calculateConversionProbability() {
     const timeOnPage = Date.now() - trackingData.startTime;
     const ctaClicks = Object.values(trackingData.ctaClicks).reduce((a, b) => a + b, 0);
     const interactions = ctaInteractions.length;
     
-    // 간단???�수 기반 ?�률 계산
+    // 간단???�수 기반 ?�률 계산
     let probability = 0.1; // 기본 10%
     
-    // ?�간 ?�소 (30�??�상 체류??증�?)
+    // ?�간 ?�소 (30�??�상 체류??증�?)
     if (timeOnPage > 30000) probability += 0.2;
     if (timeOnPage > 60000) probability += 0.1;
     
-    // ?�터?�션 ?�소
+    // ?�터?�션 ?�소
     if (ctaClicks > 0) probability += 0.3;
     if (ctaClicks > 1) probability += 0.2;
     if (interactions > 3) probability += 0.1;
     
-    // A/B ?�스??변?�별 조정
+    // A/B ?�스??변?�별 조정
     if (abTestVariant === 'B') probability += 0.05;
     
-    return Math.min(probability, 0.9); // 최�? 90%
+    return Math.min(probability, 0.9); // 최�? 90%
 }
 
-// 모달 ?�기�?
+// 모달 ?�기�?
 function hideModal(modalId = 'modal') {
     const modal = document.getElementById(modalId);
     modal.style.display = 'none';
     
-    // 모달 ?�기 ?�벤???�래??
+    // 모달 ?�기 ?�벤???�래??
     trackEvent('modal_close', {
         modal_id: modalId,
         language: currentLanguage
     });
 }
 
-// ?�메???�전?�약 처리
+// ?�메???�전?�약 처리
 function handleEmailPreRegistration() {
     const form = document.getElementById('email-modal-form');
     if (!form) {
@@ -1426,11 +1419,11 @@ function handleEmailPreRegistration() {
     const service = formData.get('service');
     const country = formData.get('country');
     
-    // ?�효??검??
+    // ?�효??검??
     if (!validateEmail(email)) {
         showNotification(
             currentLanguage === 'ko' 
-                ? '?�바�??�메??주소�??�력?�주?�요.' 
+                ? '?�바�??�메??주소�??�력?�주?�요.' 
                 : 'Please enter a valid email address.',
             'error'
         );
@@ -1440,7 +1433,7 @@ function handleEmailPreRegistration() {
     if (!validateName(name)) {
         showNotification(
             currentLanguage === 'ko' 
-                ? '?�름??2-50???�이�??�력?�주?�요.' 
+                ? '?�름??2-50???�이�??�력?�주?�요.' 
                 : 'Please enter a name between 2-50 characters.',
             'error'
         );
@@ -1450,7 +1443,7 @@ function handleEmailPreRegistration() {
     if (!validateCountry(country)) {
         showNotification(
             currentLanguage === 'ko' 
-                ? '�??�?2-50???�이�??�력?�주?�요.' 
+                ? '�??�?2-50???�이�??�력?�주?�요.' 
                 : 'Please enter a country between 2-50 characters.',
             'error'
         );
@@ -1460,14 +1453,14 @@ function handleEmailPreRegistration() {
     if (!service) {
         showNotification(
             currentLanguage === 'ko' 
-                ? '관???�비?��? ?�택?�주?�요.' 
+                ? '관???�비?��? ?�택?�주?�요.' 
                 : 'Please select a service interest.',
             'error'
         );
         return;
     }
     
-    // ?�메???�전?�약 ?�벤???�래??
+    // ?�메???�전?�약 ?�벤???�래??
     trackEvent('email_preregistration', {
         email: email,
         name: name,
@@ -1477,10 +1470,10 @@ function handleEmailPreRegistration() {
         ab_variant: abTestVariant
     });
     
-    // ?�공 메시지 ?�시
+    // ?�공 메시지 ?�시
     showNotification(
         currentLanguage === 'ko' 
-            ? '?�전?�약???�료?�었?�니?? ?�비???�픈 ??가??먼�? ?�락?�리겠습?�다.' 
+            ? '?�전?�약???�료?�었?�니?? ?�비???�픈 ??가??먼�? ?�락?�리겠습?�다.' 
             : 'Pre-registration completed! We will contact you first when our service opens.',
         'success'
     );
@@ -1488,21 +1481,21 @@ function handleEmailPreRegistration() {
     // ??리셋
     form.reset();
     
-    // 모달 ?�기
+    // 모달 ?�기
     hideModal('email-modal');
     
-    // ?�공 모달 ?�시
+    // ?�공 모달 ?�시
     showModal(
-        currentLanguage === 'ko' ? '?�전?�약 ?�료' : 'Pre-registration Complete',
+        currentLanguage === 'ko' ? '?�전?�약 ?�료' : 'Pre-registration Complete',
         currentLanguage === 'ko' 
-            ? '감사?�니?? ?�비???�픈 ??가??먼�? ?�메?�로 ?�락?�리겠습?�다.' 
+            ? '감사?�니?? ?�비???�픈 ??가??먼�? ?�메?�로 ?�락?�리겠습?�다.' 
             : 'Thank you! We will contact you first via email when our service opens.'
     );
 }
 
-// ?�림 ?�시
+// ?�림 ?�시
 function showNotification(message, type = 'info') {
-    // 간단???�림 구현 (?�제로는 ???�교???�림 ?�스???�용)
+    // 간단???�림 구현 (?�제로는 ???�교???�림 ?�스???�용)
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.textContent = message;
@@ -1526,14 +1519,14 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// ?�간 추적 ?�작
+// ?�간 추적 ?�작
 function startTimeTracking() {
     setInterval(() => {
         trackingData.timeOnPage = Date.now() - trackingData.startTime;
     }, 1000);
 }
 
-// ?�벤???�래??
+// ?�벤???�래??
 function trackEvent(eventName, data = {}) {
     const eventData = {
         event: eventName,
@@ -1545,7 +1538,7 @@ function trackEvent(eventName, data = {}) {
         ...data
     };
     
-    // GA4 ?�벤???�송
+    // GA4 ?�벤???�송
     if (typeof gtag !== 'undefined') {
         gtag('event', eventName, {
             event_category: data.category || 'engagement',
@@ -1558,18 +1551,18 @@ function trackEvent(eventName, data = {}) {
     // 콘솔??로그 (개발??
     console.log('Event tracked:', eventData);
     
-    // 로컬 ?�토리�????�??(백업??
+    // 로컬 ?�토리�????�??(백업??
     const events = JSON.parse(localStorage.getItem('trackingEvents') || '[]');
     events.push(eventData);
     
-    // 최근 100�??�벤?�만 ?��?
+    // 최근 100�??�벤?�만 ?��?
     if (events.length > 100) {
         events.splice(0, events.length - 100);
     }
     
     localStorage.setItem('trackingEvents', JSON.stringify(events));
     
-    // ?�릭 카운???�데?�트
+    // ?�릭 카운???�데?�트
     if (trackingData.clicks[eventName]) {
         trackingData.clicks[eventName]++;
     } else {
@@ -1577,9 +1570,9 @@ function trackEvent(eventName, data = {}) {
     }
 }
 
-// ?�이지 ?�로????최종 ?�이???�송
+// ?�이지 ?�로????최종 ?�이???�송
 window.addEventListener('beforeunload', function() {
-    // 최종 ?�벤???�래??
+    // 최종 ?�벤???�래??
     trackEvent('page_exit', {
         time_on_page: trackingData.timeOnPage,
         total_clicks: Object.keys(trackingData.clicks).length,
@@ -1588,12 +1581,12 @@ window.addEventListener('beforeunload', function() {
     });
 });
 
-// CTA 버튼 ?�벤???�들???�합
+// CTA 버튼 ?�벤???�들???�합
 document.addEventListener('click', function(e) {
     const target = e.target;
     const buttonText = target.textContent.trim();
     
-    // ?�메???�전?�약 모달???�시?�야 ?�는 버튼??
+    // ?�메???�전?�약 모달???�시?�야 ?�는 버튼??
     const emailModalButtons = [
         'Get Started',
         'Apply for Free Consultation',
@@ -1603,7 +1596,7 @@ document.addEventListener('click', function(e) {
         'Start Right Now'
     ];
     
-    // ?�메???�전?�약 모달 ?�시
+    // ?�메???�전?�약 모달 ?�시
     if (emailModalButtons.some(text => buttonText.includes(text)) || 
         target.classList.contains('cta-btn') && 
         (buttonText.includes('Get Started') || buttonText.includes('Apply') || buttonText.includes('Start'))) {
@@ -1612,39 +1605,39 @@ document.addEventListener('click', function(e) {
         return;
     }
     
-    // ?�정 ID�?가�?버튼??
+    // ?�정 ID�?가�?버튼??
     if (target.id === 'hero-cta' || target.id === 'mentor-cta') {
         e.preventDefault();
         showEmailModal();
         return;
     }
     
-    // ?�법??체크 ?��???
+    // 합법성 체크 위자드
     if (target.id === 'legality-check' || target.id === 'wizard-cta') {
         e.preventDefault();
         showModal(
-            currentLanguage === 'ko' ? '?�법??체크 ?��??? : 'Legality Check Wizard',
+            currentLanguage === 'ko' ? '합법성 체크 위자드' : 'Legality Check Wizard',
             currentLanguage === 'ko' 
-                ? '?�재 ?�비?��? 준�?중입?�다. ?�메?�로 ?�락?�리�?체크 ?�구�??�공?�드리겠?�니??' 
+                ? '현재 서비스를 준비중입니다. 이메일로 연락드릴때 체크 도구를 제공해드리겠습니다' 
                 : 'We are currently preparing this service. We will provide the check tool via email when we contact you.'
         );
         return;
     }
     
-    // 검�?공고 보기
+    // 검증 공고 보기
     if (target.id === 'jobs-cta') {
         e.preventDefault();
         showModal(
-            currentLanguage === 'ko' ? '검증된 ?�자�? : 'Verified Jobs',
+            currentLanguage === 'ko' ? '검증된 일자리' : 'Verified Jobs',
             currentLanguage === 'ko' 
-                ? '?�재 ?�비?��? 준�?중입?�다. ?�메?�로 ?�락?�리�?검증된 ?�자�?목록???�공?�드리겠?�니??' 
+                ? '현재 서비스를 준비중입니다. 이메일로 연락드릴때 검증된 일자리 목록을 제공해드리겠습니다' 
                 : 'We are currently preparing this service. We will provide a list of verified jobs via email when we contact you.'
         );
         return;
     }
 });
 
-// CSS ?�니메이??추�?
+// CSS ?�니메이??추�?
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {
@@ -1664,7 +1657,7 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// 개발???�구???�수??(?�로?�션?�서???�거)
+// 개발???�구???�수??(?�로?�션?�서???�거)
 window.getTrackingData = function() {
     return {
         trackingData,
@@ -1689,11 +1682,11 @@ window.testCTATracking = function(ctaId = 'hero-cta') {
     console.log('Testing CTA tracking for:', ctaId);
     const element = document.getElementById(ctaId);
     if (element) {
-        // ?�스???�릭 ?��??�이??
+        // ?�스???�릭 ?��??�이??
         element.click();
         console.log('CTA click simulated');
         
-        // ?�과 리포??출력
+        // ?�과 리포??출력
         setTimeout(() => {
             console.log('Performance Report:', generateCTAPerformanceReport());
             console.log('Recommendations:', getCTAOptimizationRecommendations());
@@ -1706,16 +1699,16 @@ window.testCTATracking = function(ctaId = 'hero-cta') {
 window.simulateUserJourney = function() {
     console.log('Simulating complete user journey...');
     
-    // 1. ?�이지 �?(?��? ?�료)
+    // 1. ?�이지 �?(?��? ?�료)
     console.log('??Page view tracked');
     
-    // 2. CTA ?�버 ?��??�이??
+    // 2. CTA ?�버 ?��??�이??
     setTimeout(() => {
         trackCTAInteraction('hero-cta', 'hover');
         console.log('??CTA hover simulated');
     }, 1000);
     
-    // 3. CTA ?�릭 ?��??�이??
+    // 3. CTA ?�릭 ?��??�이??
     setTimeout(() => {
         const heroBtn = document.getElementById('hero-cta');
         if (heroBtn) {
@@ -1724,7 +1717,7 @@ window.simulateUserJourney = function() {
         }
     }, 2000);
     
-    // 4. ???�출 ?��??�이??(3�???
+    // 4. ???�출 ?��??�이??(3�???
     setTimeout(() => {
         trackCTAConversion('mentoring', {
             email: 'test@example.com',
@@ -1764,7 +1757,7 @@ window.clearTrackingData = function() {
     console.log('All tracking data cleared');
 };
 
-// CTA A/B ?�스??결과 분석
+// CTA A/B ?�스??결과 분석
 window.analyzeABTestResults = function() {
     const interactions = ctaInteractions.filter(i => i.action === 'click');
     const variantA = interactions.filter(i => i.abVariant === 'A');
