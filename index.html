@@ -153,27 +153,28 @@
             <div class="nav-brand">
                 <h2>MentorMatch Korea</h2>
             </div>
-            <div class="nav-menu" role="menubar">
-                <a href="#hero" class="nav-link" role="menuitem" data-ko="홈" data-en="Home">Home</a>
-                <a href="#services" class="nav-link" role="menuitem" data-ko="서비스" data-en="Services">Services</a>
-                <a href="#mentor-support" class="nav-link" role="menuitem" data-ko="생활 적응 멘토링" data-en="Life Adaptation Mentoring">Life Adaptation Mentoring</a>
-                <a href="#job-support" class="nav-link" role="menuitem" data-ko="아르바이트 지원" data-en="Part-time Job Support">Part-time Job Support</a>
-                <a href="#faq" class="nav-link" role="menuitem" data-ko="FAQ" data-en="FAQ">FAQ</a>
-                
-                <!-- 언어 선택 -->
-                <div class="language-selector" role="group" aria-label="Language selection">
-                    <button class="lang-btn active" data-lang="en" aria-pressed="true" aria-describedby="current-lang">
-                        <i class="fas fa-globe" aria-hidden="true"></i>
-                        <span>EN</span>
-                    </button>
-                    <button class="lang-btn" data-lang="ko" aria-pressed="false">
-                        <i class="fas fa-globe" aria-hidden="true"></i>
-                        <span>한</span>
-                    </button>
-                    <span id="current-lang" class="sr-only">Current language: English</span>
+            <div class="nav-content">
+                <div class="nav-menu" role="menubar">
+                    <a href="#hero" class="nav-link" role="menuitem" data-ko="홈" data-en="Home">Home</a>
+                    <a href="#services" class="nav-link" role="menuitem" data-ko="서비스" data-en="Services">Services</a>
+                    <a href="#mentor-support" class="nav-link" role="menuitem" data-ko="생활 적응 멘토링" data-en="Life Adaptation Mentoring">Life Adaptation Mentoring</a>
+                    <a href="#job-support" class="nav-link" role="menuitem" data-ko="아르바이트 지원" data-en="Part-time Job Support">Part-time Job Support</a>
+                    <a href="#faq" class="nav-link" role="menuitem" data-ko="FAQ" data-en="FAQ">FAQ</a>
+                    <button class="cta-btn primary" aria-label="Get started with our services" data-ko="시작하기" data-en="Get Started">Get Started</button>
                 </div>
                 
-                <button class="cta-btn primary" aria-label="Get started with our services" data-ko="시작하기" data-en="Get Started">Get Started</button>
+                <!-- 언어 선택 - 오른쪽 상단 코너 -->
+                <div class="nav-actions">
+                    <div class="language-selector" role="group" aria-label="Language selection">
+                        <button class="lang-btn active" data-lang="en" aria-pressed="true" aria-describedby="current-lang" title="Switch to English">
+                            EN
+                        </button>
+                        <button class="lang-btn" data-lang="ko" aria-pressed="false" title="한국어로 변경">
+                            한
+                        </button>
+                        <span id="current-lang" class="sr-only">Current language: English</span>
+                    </div>
+                </div>
             </div>
             <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
                 <i class="fas fa-bars" aria-hidden="true"></i>
