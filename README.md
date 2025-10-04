@@ -2,7 +2,7 @@
 
 A landing page for demand validation of professional mentoring services and legal, safe part-time job matching platform for international students and expats in Korea.
 
-🌐 **Live Demo**: [https://mentormatch-korea.github.io/landing-page](https://mentormatch-korea.github.io/landing-page)
+🌐 **Live Demo**: [https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/](https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/)
 
 ## 🚀 주요 기능
 
@@ -56,8 +56,8 @@ A landing page for demand validation of professional mentoring services and lega
 ### 로컬 개발
 ```bash
 # 저장소 클론
-git clone https://github.com/mentormatch-korea/landing-page.git
-cd landing-page
+git clone https://github.com/yeaaaaaaaaaap/Foreigner-P2P-Mentor-Job-Service.git
+cd Foreigner-P2P-Mentor-Job-Service
 
 # 의존성 설치
 npm install

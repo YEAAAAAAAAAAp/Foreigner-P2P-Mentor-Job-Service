@@ -40,9 +40,13 @@ GitHub Actions를 사용한 자동 배포가 이미 설정되어 있습니다:
 
 ### 5. 커스텀 도메인 설정 (선택사항)
 
+**참고**: 현재는 GitHub Pages 기본 URL을 사용합니다.
+- Live URL: https://yeaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/
+
+커스텀 도메인을 원할 경우:
 1. 도메인을 구매한 후 DNS 설정
-2. `CNAME` 파일에 도메인 추가: `mentormatch-korea.com`
-3. GitHub Pages 설정에서 **Custom domain** 입력
+2. GitHub Pages 설정에서 **Custom domain** 입력
+3. CNAME 파일은 GitHub가 자동으로 생성합니다
 
 ## 🔧 로컬 개발 환경
 
@@ -98,8 +102,8 @@ npm run preview
    - 파일 경로 및 문법 검사
 
 ### 지원 및 문의
-- 이슈 등록: [GitHub Issues](https://github.com/mentormatch-korea/landing-page/issues)
-- 이메일: support@mentormatch-korea.com
+- 이슈 등록: [GitHub Issues](https://github.com/yeaaaaaaaaaap/Foreigner-P2P-Mentor-Job-Service/issues)
+- GitHub Repository: [Foreigner P2P Mentor Job Service](https://github.com/yeaaaaaaaaaap/Foreigner-P2P-Mentor-Job-Service)
 
 ## 📈 성과 측정
 

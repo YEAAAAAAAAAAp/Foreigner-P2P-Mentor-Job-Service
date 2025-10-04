@@ -47,6 +47,9 @@ coverage/
 dist/
 build/
 
+# GitHub Pages custom domain (prevent auto CNAME creation)
+CNAME
+
 # Keep these files for GitHub Pages deployment:
 # index.html
 # styles.css  
