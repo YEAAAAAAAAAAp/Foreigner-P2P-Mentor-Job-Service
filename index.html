@@ -14,9 +14,9 @@
     <meta name="theme-color" content="#667eea">
     
     <!-- SEO Meta Tags -->
-    <title>?�국 ?�활 ?�응 멘토�?& ?�전???�르바이??매칭 | MentorMatch Korea</title>
-    <meta name="description" content="?�국??�??�착???�국?�을 ?�한 ?�활 ?�응 멘토�??�비?? 같�? �?�� ?�배?�이 ?�국 ?�착, 문화 ?�응, 비자 관리�? 1:1�??��??�립?�다. ?�전???�르바이?�도 ?�께 ?�공.">
-    <meta name="keywords" content="?�국 ?�활 ?�응, ?�국??멘토�? ?�국 ?�착 ?��?, ?�활 가?�드, 문화 ?�응, 비자 ?�담, ?�국???�르바이?? ?�전???�자�?>
+    <title>한국 생활 적응 멘토링 & 안전한 아르바이트 매칭 | MentorMatch Korea</title>
+    <meta name="description" content="한국에 막 도착한 외국인을 위한 생활 적응 멘토링 서비스. 같은 국적 선배들이 한국 정착, 문화 적응, 비자 관리를 1:1로 도와드립니다. 안전한 아르바이트도 함께 제공.">
+    <meta name="keywords" content="한국 생활 적응, 외국인 멘토링, 한국 정착 도움, 생활 가이드, 문화 적응, 비자 상담, 외국인 아르바이트, 안전한 일자리">
     <meta name="author" content="MentorMatch Korea">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://yeaaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/">
@@ -24,8 +24,8 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://yeaaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/">
-    <meta property="og:title" content="?�국 ?�활 ?�응 멘토�?& ?�전???�르바이??매칭 | MentorMatch Korea">
-    <meta property="og:description" content="?�국??�??�착???�국?�을 ?�한 ?�활 ?�응 멘토�? 같�? �?�� ?�배?�이 ?�국 ?�착�?문화 ?�응??1:1�??��??�립?�다.">
+    <meta property="og:title" content="한국 생활 적응 멘토링 & 안전한 아르바이트 매칭 | MentorMatch Korea">
+    <meta property="og:description" content="한국에 막 도착한 외국인을 위한 생활 적응 멘토링. 같은 국적 선배들이 한국 정착과 문화 적응을 1:1로 도와드립니다.">
     <meta property="og:image" content="https://yeaaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/favicon.ico">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -35,8 +35,8 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://yeaaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/">
-    <meta name="twitter:title" content="?�국 ?�활 ?�응 멘토�?& ?�전???�르바이??매칭 | MentorMatch Korea">
-    <meta name="twitter:description" content="?�국??�??�착???�국?�을 ?�한 ?�활 ?�응 멘토�? 같�? �?�� ?�배?�이 ?�국 ?�착�?문화 ?�응??1:1�??��??�립?�다.">
+    <meta name="twitter:title" content="한국 생활 적응 멘토링 & 안전한 아르바이트 매칭 | MentorMatch Korea">
+    <meta name="twitter:description" content="한국에 막 도착한 외국인을 위한 생활 적응 멘토링. 같은 국적 선배들이 한국 정착과 문화 적응을 1:1로 도와드립니다.">
     <meta name="twitter:image" content="https://yeaaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service/favicon.ico">
     
     <!-- Favicon and Touch Icons -->
@@ -53,12 +53,12 @@
     <link rel="dns-prefetch" href="//www.google-analytics.com">
     
     <!-- Preload Critical Resources -->
-    <link rel="preload" href="./styles.css" as="style">
-    <link rel="preload" href="./script.js" as="script">
+    <link rel="preload" href="main.css?v=1.0" as="style">
+    <link rel="preload" href="script.js?v=1.0" as="script">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" as="style">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="main.css?v=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
     
@@ -77,45 +77,239 @@
     
     <!-- Critical CSS for Performance -->
     <style>
-        /* Critical CSS - Above the fold content */
-        body {
-            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+        /* Reset and Base Styles */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
             line-height: 1.6;
             color: #1a1a1a;
             overflow-x: hidden;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%);
+            position: relative;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            max-width: 1400px;
+        }
+        
+        .nav-brand h2 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin: 0;
+        }
+        
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+            list-style: none;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        
+        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            min-height: 100vh;
-            display: flex;
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
             align-items: center;
+            position: relative;
+            z-index: 2;
+            padding: 0 20px;
         }
-        .language-bar {
+        
+        .hero-title {
+            font-size: 3.8rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 48px;
+            opacity: 0.95;
+            line-height: 1.8;
+            font-weight: 400;
+            max-width: 90%;
+        }
+        
+        /* Buttons */
+        .cta-btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-btn.primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 8px 0;
+            color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25);
         }
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
+        
+        .cta-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .service-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 18px 32px;
+            margin: 8px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            position: fixed;
-            top: 40px;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        /* Language Selector */
+        .language-selector {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 4px;
+            gap: 2px;
+        }
+        
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            color: #4a5568;
+            cursor: pointer;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .lang-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+                max-width: 100%;
+            }
         }
     </style>
     
+    <!-- Ensure CSS Loading -->
+    <script>
+        // Force CSS loading with fallback
+        (function() {
+            var cssLoaded = false;
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'main.css?v=' + Date.now();
+            link.onload = function() { cssLoaded = true; };
+            link.onerror = function() {
+                // Fallback: try original filename
+                var fallbackLink = document.createElement('link');
+                fallbackLink.rel = 'stylesheet';
+                fallbackLink.href = 'styles.css?v=' + Date.now();
+                document.head.appendChild(fallbackLink);
+            };
+            document.head.appendChild(link);
+            
+            // Additional check after 2 seconds
+            setTimeout(function() {
+                if (!cssLoaded) {
+                    var finalLink = document.createElement('link');
+                    finalLink.rel = 'stylesheet';
+                    finalLink.href = 'styles.css?t=' + new Date().getTime();
+                    document.head.appendChild(finalLink);
+                }
+            }, 2000);
+        })();
+    </script>
+    
     <!-- JavaScript -->
-    <script src="./script.js" defer></script>
+    <script src="script.js?v=1.0" defer></script>
     
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -169,7 +363,7 @@
                         <button class="lang-btn active" data-lang="en" aria-pressed="true" aria-describedby="current-lang" title="Switch to English">
                             EN
                         </button>
-                        <button class="lang-btn" data-lang="ko" aria-pressed="false" title="?�국?�로 변�?>
+                        <button class="lang-btn" data-lang="ko" aria-pressed="false" title="한국어로 변경">
                             ??
                         </button>
                         <span id="current-lang" class="sr-only">Current language: English</span>
@@ -388,8 +582,8 @@
 
             <!-- 검증된 ?�자�?미리보기 -->
             <div class="verified-jobs">
-                <h3 data-ko="검증된 ?�전???�자�? data-en="Verified Safe Jobs">Verified Safe Jobs</h3>
-                <p data-ko="모든 ?�자리는 ?�국??근로?�의 비자 조건??맞게 ?�별?�었?�며, 고용주들?� ?�국??채용 경험???��??�고 ?�어 ?�통???�려?�습?�다. 법적 검증을 거쳐 ?�전???�전?�을 보장받았?�니?? data-en="All jobs are carefully selected to match international workers' visa conditions, and employers are experienced in hiring foreigners and open to language communication. They are legally verified and guaranteed for complete safety">
+                <h3 data-ko="검증된 안전한 일자리" data-en="Verified Safe Jobs">Verified Safe Jobs</h3>
+                <p data-ko="모든 일자리는 외국인 근로자의 비자 조건에 맞게 선별되었으며, 고용주들은 외국인 채용 경험이 풍부하고 언어 소통에 열려있습니다. 법적 검증을 거쳐 완전한 안전성을 보장받았습니다." data-en="All jobs are carefully selected to match international workers' visa conditions, and employers are experienced in hiring foreigners and open to language communication. They are legally verified and guaranteed for complete safety">
                     All jobs are carefully selected to match international workers' visa conditions, and employers are experienced in hiring foreigners and open to language communication. They are legally verified and guaranteed for complete safety
                 </p>
                 <div class="jobs-preview">
@@ -422,7 +616,7 @@
                             <i class="fas fa-chalkboard-teacher"></i>
                             <span data-ko="교육 ?�바" data-en="Education Part-time">Education Part-time</span>
                         </div>
-                        <h4 data-ko="?�어 교습/과외" data-en="Language Teaching/Tutoring">Language Teaching/Tutoring</h4>
+                        <h4 data-ko="언어 교습/과외" data-en="Language Teaching/Tutoring">Language Teaching/Tutoring</h4>
                         <p data-ko="?�간??15,000???�상, ?�연???�간" data-en="15,000 KRW/hour, Flexible hours">15,000 KRW/hour, Flexible hours</p>
                         <div class="job-badges">
                             <span class="badge verified" data-ko="검증됨" data-en="Verified">Verified</span>
@@ -480,7 +674,7 @@
                                 <i class="fas fa-chevron-down"></i>
                             </div>
                             <div class="faq-answer">
-                                <p data-ko="물론?�니?? ?�국??지???�비?��? ?�공?�며, ?�어, 중국?? ?�본???�으�??�담받을 ???�습?�다. ?�한 ?�어 ?�습???�한 ?�별 ?�로그램???�공?�니??" data-en="Of course! We provide multilingual support services, and you can receive consultation in English, Chinese, Japanese, and more. We also offer special programs for language learning.">
+                                <p data-ko="물론입니다! 다국어 지원 서비스를 제공하며, 영어, 중국어, 일본어 등으로 상담받을 수 있습니다. 또한 언어 학습을 위한 특별 프로그램도 제공합니다." data-en="Of course! We provide multilingual support services, and you can receive consultation in English, Chinese, Japanese, and more. We also offer special programs for language learning.">
                                     Of course! We provide multilingual support services, and you can receive consultation in English, Chinese, Japanese, and more. We also offer special programs for language learning.
                                 </p>
                             </div>

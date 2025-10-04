@@ -20,10 +20,10 @@ let trackingData = {
     }
 };
 
-// ?�역 ?�러 처리
+// 전역 에러 처리
 window.addEventListener('error', function(event) {
     console.error('Global error:', event.error);
-    // ?�러 추적 (?�제 ?�영 ?�경?�서???�러 로깅 ?�비?�로 ?�송)
+    // 에러 추적 (실제 운영 환경에서는 에러 로깅 서비스로 전송)
     if (typeof gtag !== 'undefined') {
         gtag('event', 'exception', {
             description: event.error?.message || 'Unknown error',
@@ -43,9 +43,9 @@ window.addEventListener('unhandledrejection', function(event) {
     }
 });
 
-// ?�틸리티 ?�수??
+// 유틸리티 함수들
 const utils = {
-    // ?�전???�소 ?�택
+    // 안전한 요소 선택
     safeQuerySelector: function(selector) {
         try {
             return document.querySelector(selector);
@@ -758,12 +758,12 @@ function initializeLanguage() {
     switchLanguage(savedLang);
 }
 
-// ?�어 ?�환
+// 언어 전환
 function switchLanguage(lang) {
     currentLanguage = lang;
     localStorage.setItem('preferredLanguage', lang);
     
-    // ?�어 버튼 ?�태 ?�데?�트
+    // 언어 버튼 상태 업데이트
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.remove('active');
         if (btn.getAttribute('data-lang') === lang) {
@@ -771,7 +771,7 @@ function switchLanguage(lang) {
         }
     });
     
-    // ?�스???�데?�트
+    // 텍스트 업데이트
     document.querySelectorAll('[data-ko], [data-en]').forEach(element => {
         const text = element.getAttribute(`data-${lang}`);
         if (text) {
@@ -1169,15 +1169,15 @@ function submitForm(email, interest) {
     
     if (interest === 'mentoring') {
         successMessage = currentLanguage === 'ko' 
-            ? '멘토�??�청???�료?�었?�니?? �??�락?�리겠습?�다.' 
+            ? '멘토링 신청이 완료되었습니다! 곧 연락드리겠습니다.' 
             : 'Mentoring application completed! We will contact you soon.';
-        modalTitle = currentLanguage === 'ko' ? '멘토�??�청 ?�료' : 'Mentoring Application Complete';
+        modalTitle = currentLanguage === 'ko' ? '멘토링 신청 완료' : 'Mentoring Application Complete';
         modalText = currentLanguage === 'ko' 
-            ? '감사?�니?? 24?�간 ?�에 멘토�??�담???�해 ?�메?�로 ?�락?�리겠습?�다.' 
+            ? '감사합니다! 24시간 내에 멘토링 상담을 위해 이메일로 연락드리겠습니다.' 
             : 'Thank you! We will contact you via email within 24 hours for mentoring consultation.';
     } else if (interest === 'jobs') {
         successMessage = currentLanguage === 'ko' 
-            ? '?�자�??�청???�료?�었?�니?? �??�락?�리겠습?�다.' 
+            ? '일자리 신청이 완료되었습니다! 곧 연락드리겠습니다.' 
             : 'Job application completed! We will contact you soon.';
         modalTitle = currentLanguage === 'ko' ? '?�자�??�청 ?�료' : 'Job Application Complete';
         modalText = currentLanguage === 'ko' 
