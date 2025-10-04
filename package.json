@@ -20,15 +20,15 @@
   ],
   "author": "MentorMatch Korea",
   "license": "MIT",
-  "homepage": "https://mentormatch-korea.github.io/landing-page",
+  "homepage": "https://yeaaaaaaaaaap.github.io/Foreigner-P2P-Mentor-Job-Service",
   "devDependencies": {
     "http-server": "^14.1.1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mentormatch-korea/landing-page.git"
+    "url": "https://github.com/yeaaaaaaaaaap/Foreigner-P2P-Mentor-Job-Service.git"
   },
   "bugs": {
-    "url": "https://github.com/mentormatch-korea/landing-page/issues"
+    "url": "https://github.com/yeaaaaaaaaaap/Foreigner-P2P-Mentor-Job-Service/issues"
   }
 }
