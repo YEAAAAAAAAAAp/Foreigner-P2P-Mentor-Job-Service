@@ -781,7 +781,7 @@ function switchLanguage(lang) {
     
     // ?�이지 ?�목 ?�데?�트
     if (lang === 'ko') {
-        document.title = '?�국??멘토 & ?�전???�기?�바 매칭 | MentorMatch Korea';
+        document.title = '한국인 멘토 & 안전한 아르바이트 매칭 | MentorMatch Korea';
     } else {
         document.title = 'Foreign Mentor & Safe Part-time Job Matching | MentorMatch Korea';
     }
@@ -803,7 +803,7 @@ function initializeABTest() {
         const heroTitle = document.querySelector('.hero-title');
         if (heroTitle) {
             if (currentLanguage === 'ko') {
-                heroTitle.textContent = '?�국?�서 ?�공?�는 ?�국?�을 ?�한 ?�별??기회';
+                heroTitle.textContent = '한국에서 성공하는 외국인을 위한 특별한 기회';
             } else {
                 heroTitle.textContent = 'Special Opportunities for Internationals to Succeed in Korea';
             }
@@ -815,7 +815,7 @@ function initializeABTest() {
     ctaButtons.forEach(button => {
         if (abTestVariant === 'B') {
             if (currentLanguage === 'ko') {
-                button.textContent = '지�?바로 ?�작?�기';
+                button.textContent = '지금 바로 시작하기';
             } else {
                 button.textContent = 'Start Right Now';
             }
@@ -1067,13 +1067,13 @@ function initializeFormHandling() {
             if (validateEmail(email)) {
                 submitForm(email, interest);
             } else {
-                showNotification('?�바�??�메??주소�??�력?�주?�요.', 'error');
+                showNotification('올바른 이메일 주소를 입력해주세요.', 'error');
             }
         });
     }
 }
 
-// ?�메???�효??검??
+// ?�메??유효성 검증
 function validateEmail(email) {
     if (!email || typeof email !== 'string') {
         return false;
@@ -1082,7 +1082,7 @@ function validateEmail(email) {
     return emailRegex.test(email.trim());
 }
 
-// ?�름 ?�효??검??
+// ?�름 유효성 검증
 function validateName(name) {
     if (!name || typeof name !== 'string') {
         return false;
@@ -1091,7 +1091,7 @@ function validateName(name) {
     return trimmedName.length >= 2 && trimmedName.length <= 50;
 }
 
-// �?? ?�효??검??
+// �?? 유효성 검증
 function validateCountry(country) {
     if (!country || typeof country !== 'string') {
         return false;
@@ -1179,21 +1179,21 @@ function submitForm(email, interest) {
         successMessage = currentLanguage === 'ko' 
             ? '일자리 신청이 완료되었습니다! 곧 연락드리겠습니다.' 
             : 'Job application completed! We will contact you soon.';
-        modalTitle = currentLanguage === 'ko' ? '?�자�??�청 ?�료' : 'Job Application Complete';
+        modalTitle = currentLanguage === 'ko' ? '일자리 신청 완료' : 'Job Application Complete';
         modalText = currentLanguage === 'ko' 
-            ? '감사?�니?? 24?�간 ?�에 ?�전???�자�?기회�??�메?�로 ?�내?�리겠습?�다.' 
+            ? '감사합니다! 24시간 내에 안전한 일자리 기회를 이메일로 안내드리겠습니다.' 
             : 'Thank you! We will contact you via email within 24 hours with safe job opportunities.';
     } else {
         successMessage = currentLanguage === 'ko' 
-            ? '?�청???�료?�었?�니?? �??�락?�리겠습?�다.' 
+            ? '신청이 완료되었습니다! 곧 연락드리겠습니다.' 
             : 'Application completed! We will contact you soon.';
-        modalTitle = currentLanguage === 'ko' ? '?�청 ?�료' : 'Application Complete';
+        modalTitle = currentLanguage === 'ko' ? '신청 완료' : 'Application Complete';
         modalText = currentLanguage === 'ko' 
-            ? '감사?�니?? 24?�간 ?�에 ?�메?�로 ?�락?�리겠습?�다.' 
+            ? '감사합니다! 24시간 내에 이메일로 연락드리겠습니다.' 
             : 'Thank you! We will contact you via email within 24 hours.';
     }
     
-    // ?�공 메시지 ?�시
+    // 성공 메시지 표시
     showNotification(successMessage, 'success');
     
     // ??리셋
@@ -1419,11 +1419,11 @@ function handleEmailPreRegistration() {
     const service = formData.get('service');
     const country = formData.get('country');
     
-    // ?�효??검??
+    // 유효성 검증
     if (!validateEmail(email)) {
         showNotification(
             currentLanguage === 'ko' 
-                ? '?�바�??�메??주소�??�력?�주?�요.' 
+                ? '올바른 이메일 주소를 입력해주세요.' 
                 : 'Please enter a valid email address.',
             'error'
         );
@@ -1433,7 +1433,7 @@ function handleEmailPreRegistration() {
     if (!validateName(name)) {
         showNotification(
             currentLanguage === 'ko' 
-                ? '?�름??2-50???�이�??�력?�주?�요.' 
+                ? '이름을 2-50글자 이내로 입력해주세요.' 
                 : 'Please enter a name between 2-50 characters.',
             'error'
         );
@@ -1453,7 +1453,7 @@ function handleEmailPreRegistration() {
     if (!service) {
         showNotification(
             currentLanguage === 'ko' 
-                ? '관???�비?��? ?�택?�주?�요.' 
+                ? '관심 서비스를 선택해주세요.' 
                 : 'Please select a service interest.',
             'error'
         );
@@ -1470,10 +1470,10 @@ function handleEmailPreRegistration() {
         ab_variant: abTestVariant
     });
     
-    // ?�공 메시지 ?�시
+    // 성공 메시지 표시
     showNotification(
         currentLanguage === 'ko' 
-            ? '?�전?�약???�료?�었?�니?? ?�비???�픈 ??가??먼�? ?�락?�리겠습?�다.' 
+            ? '사전등록이 완료되었습니다! 서비스 오픈 시 가장 먼저 연락드리겠습니다.' 
             : 'Pre-registration completed! We will contact you first when our service opens.',
         'success'
     );
@@ -1484,11 +1484,11 @@ function handleEmailPreRegistration() {
     // 모달 ?�기
     hideModal('email-modal');
     
-    // ?�공 모달 ?�시
+    // 성공 모달 표시
     showModal(
-        currentLanguage === 'ko' ? '?�전?�약 ?�료' : 'Pre-registration Complete',
+        currentLanguage === 'ko' ? '사전등록 완료' : 'Pre-registration Complete',
         currentLanguage === 'ko' 
-            ? '감사?�니?? ?�비???�픈 ??가??먼�? ?�메?�로 ?�락?�리겠습?�다.' 
+            ? '감사합니다! 서비스 오픈 시 가장 먼저 이메일로 연락드리겠습니다.' 
             : 'Thank you! We will contact you first via email when our service opens.'
     );
 }
