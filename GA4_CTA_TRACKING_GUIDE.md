@@ -23,22 +23,44 @@
 ### 🔧 GA4 이벤트 구조
 
 #### 핵심 이벤트들:
-- `cta_click`: CTA 클릭 추적
-- `cta_hover`: CTA 호버 인터랙션
-- `modal_open`: 모달 오픈 (전환 퍼널)
-- `lead_capture_start`: 이메일 모달 오픈
-- `conversion`: 최종 전환 완료
-- `ab_test_interaction`: A/B 테스트 성과
+- `cta_click`¹: CTA 클릭 추적
+- `cta_hover`²: CTA 호버 인터랙션
+- `modal_open`³: 모달 오픈 (전환 퍼널)
+- `lead_capture_start`⁴: 이메일 모달 오픈
+- `conversion`⁵: 최종 전환 완료
+- `ab_test_interaction`⁶: A/B 테스트 성과
+
+---
+
+**이벤트 한글 설명:**
+- ¹ `cta_click`: **행동 유도 버튼 클릭** - 사용자가 메인 CTA(멘토 찾기, 일자리 찾기 등) 버튼을 클릭할 때 발생
+- ² `cta_hover`: **행동 유도 버튼 호버** - 사용자가 CTA 버튼에 마우스를 올릴 때 발생하는 관심 표시 이벤트
+- ³ `modal_open`: **팝업 창 열림** - 서비스 상세 정보나 회원가입 모달이 열릴 때 발생하는 참여도 측정 이벤트
+- ⁴ `lead_capture_start`: **리드 수집 시작** - 이메일 입력 모달이 열려 잠재 고객 정보 수집이 시작될 때 발생
+- ⁵ `conversion`: **전환 완료** - 최종 목표(회원가입, 문의 신청 등)가 완료되었을 때 발생하는 성과 측정 이벤트
+- ⁶ `ab_test_interaction`: **A/B 테스트 상호작용** - 서로 다른 버전의 페이지에서 사용자 행동을 비교 분석하기 위한 이벤트
 
 #### 매개변수들:
-- `cta_id`: CTA 식별자
-- `cta_name`: CTA 이름
-- `cta_type`: primary/secondary/service/tool
-- `cta_goal`: 비즈니스 목표
-- `cta_value`: 비즈니스 가치 (KRW)
-- `ab_test_variant`: A/B 테스트 변형
-- `session_id`: 세션 추적
-- `funnel_step`: 전환 퍼널 단계
+- `cta_id`ᵃ: CTA 식별자
+- `cta_name`ᵇ: CTA 이름
+- `cta_type`ᶜ: primary/secondary/service/tool
+- `cta_goal`ᵈ: 비즈니스 목표
+- `cta_value`ᵉ: 비즈니스 가치 (KRW)
+- `ab_test_variant`ᶠ: A/B 테스트 변형
+- `session_id`ᵍ: 세션 추적
+- `funnel_step`ʰ: 전환 퍼널 단계
+
+---
+
+**매개변수 한글 설명:**
+- ᵃ `cta_id`: **CTA 고유 식별자** - 각 버튼의 고유 ID (예: hero-cta, mentor-cta)
+- ᵇ `cta_name`: **CTA 표시 이름** - 사용자에게 보이는 버튼 텍스트 (예: "멘토 찾기", "일자리 찾기")
+- ᶜ `cta_type`: **CTA 유형 분류** - 버튼의 중요도와 역할 (주요/보조/서비스/도구)
+- ᵈ `cta_goal`: **비즈니스 목표** - 해당 CTA의 비즈니스 목적 (리드 생성, 회원가입 등)
+- ᵉ `cta_value`: **비즈니스 가치** - 전환시 예상되는 수익 (원화 기준)
+- ᶠ `ab_test_variant`: **A/B 테스트 변형** - 실험 그룹 구분 (A, B, C 등)
+- ᵍ `session_id`: **세션 추적 ID** - 사용자의 방문 세션을 구분하는 고유 식별자
+- ʰ `funnel_step`: **전환 퍼널 단계** - 사용자가 현재 있는 전환 과정의 단계
 
 ### 📈 사용 방법
 
